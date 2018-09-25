@@ -1,5 +1,6 @@
 <?php
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,6 +14,14 @@
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::resources([
+    'travels' => 'TravelController'
+]);
+
+Route::prefix('/travels/{travel}')->group(function(){
+    Route::resource('visits', 'VisitController');
 });
 
 Auth::routes();
