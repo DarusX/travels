@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Visit;
 use Illuminate\Http\Request;
 use App\Travel;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Session;
 
 class VisitController extends Controller
 {
@@ -36,9 +38,14 @@ class VisitController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Travel $travel)
     {
-        //
+        return $travel->visits()->create([
+            'name' => $request->name,
+            'address' => $request->address,
+            'start_datetime' => Carbon::parse("{$request->start_date} {$request->start_time}")->timezone('UTC'),
+            'end_datetime' => Carbon::parse("{$request->end_date} {$request->end_time}")->timezone('UTC'),
+        ]);
     }
 
     /**

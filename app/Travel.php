@@ -14,4 +14,9 @@ class Travel extends Model
     {
         return $this->hasMany(Task::class);
     }
+
+    public function visits()
+    {
+        return $this->hasMany(Visit::class);
+    }
 }

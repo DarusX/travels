@@ -3,6 +3,7 @@
 use Illuminate\Database\Seeder;
 use App\User;
 use App\Status;
+use App\Travel;
 
 class DatabaseSeeder extends Seeder
 {
@@ -23,5 +24,12 @@ class DatabaseSeeder extends Seeder
         Status::create(['status' => 'Pending']);
         Status::create(['status' => 'Working']);
         Status::create(['status' => 'Done']);
+
+        Travel::create([
+            'travel' => 'Wonderland',
+            'budget' => 100000,
+            'start_date' => '2018-10-01',
+            'end_date' => '2018-10-30',
+        ]);
     }
 }

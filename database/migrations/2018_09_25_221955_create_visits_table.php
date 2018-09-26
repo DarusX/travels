@@ -15,7 +15,14 @@ class CreateVisitsTable extends Migration
     {
         Schema::create('visits', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('travel_id')->unsigned();
+            $table->string('name');
+            $table->string('address');
+            $table->timestamp('start_datetime');
+            $table->timestamp('end_datetime')->nullable();
             $table->timestamps();
+
+            $table->foreign('travel_id')->references('id')->on('travels');
         });
     }
 

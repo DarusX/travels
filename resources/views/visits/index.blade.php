@@ -16,10 +16,11 @@
                     </button>
                 </div>
                 <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                        card's content.</p>
-
+                    @foreach($travel->visits as $visit)
+                    <h5 class="card-title">{{$visit->visit}}</h5>
+                    <p class="card-text">{{$visit->start_datetime->timezone(Session::get('timezone'))}}</p>
+                    <p class="card-text">{{$visit->start_datetime}}</p>
+                    @endforeach
                 </div>
             </div>
         </div>
@@ -35,7 +36,7 @@
                     <span aria-hidden="true"><i class="fas fa-times"></i></span>
                 </button>
             </div>
-            <form action="" method="post">
+            <form action="{{route('visits.store', $travel)}}" method="post">
                 <div class="modal-body">
                     <div class="embed-responsive embed-responsive-4by3">
                         <div class="embed-responsive-item" id="map"></div>
@@ -50,14 +51,14 @@
                         <input type="text" name="address" class="form-control form-control-sm" required>
                     </div>
                     <div class="form-group">
-                        <label for="">{{__('StartDateTime')}}</label>
+                        <label for="">{{__('StartDateTime')}} {{Session::get('timezone')}}</label>
                         <div class="input-group">
                             <input type="text" name="start_date" class="form-control form-control-sm datepicker" required>
                             <input type="time" name="start_time" class="form-control form-control-sm" required>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="">{{__('EndDateTime')}}</label>
+                        <label for="">{{__('EndDateTime')}} {{Session::get('timezone')}}</label>
                         <div class="input-group">
                             <input type="text" name="end_date" class="form-control form-control-sm datepicker" required>
                             <input type="time" name="end_time" class="form-control form-control-sm" required>

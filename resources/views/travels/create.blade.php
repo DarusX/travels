@@ -13,14 +13,6 @@
                     <input type="text" name="travel" class="form-control form-control-sm" required>
                 </div>
                 <div class="form-group">
-                    <label for="">{{__('Timezone')}}</label>
-                    <select name="timezone" class="form-control form-control-sm select2" required>
-                        @foreach(timezone_identifiers_list() as $timezone)
-                        <option value="$timezone">{{$timezone}}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="form-group">
                     <label for="">{{__('Budget')}}</label>
                     <input type="number" name="budget" class="form-control form-control-sm" required>
                 </div>

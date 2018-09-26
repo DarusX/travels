@@ -16,6 +16,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::post('/timezone', 'HomeController@timezone')->name('timezone');
+
 Route::resources([
     'travels' => 'TravelController'
 ]);

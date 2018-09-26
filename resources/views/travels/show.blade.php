@@ -32,7 +32,7 @@
                             <button class="btn btn-sm btn-dark"><i class="fas fa-check"></i></button>
                             {{$task->task}}
                         </form> 
-                        <span class="badge badge-{{$task->color}}">{{$task->priority}}</span>
+                        <span class="badge badge-{{$task->color}}">{{$task->priority}} {{$task->created_at->timezone(Session::get('timezone'))}}</span>
                     </li>
                     @endforeach
                 </ul>
