@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Travel;
+use App\Task;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
-use App\Status;
+use App\Travel;
 
-class TravelController extends Controller
+class TaskController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,9 +15,7 @@ class TravelController extends Controller
      */
     public function index()
     {
-        return view('travels.index')->with([
-            'travels' => Travel::all()
-        ]);
+        //
     }
 
     /**
@@ -28,7 +25,7 @@ class TravelController extends Controller
      */
     public function create()
     {
-        return view('travels.create');
+        //
     }
 
     /**
@@ -37,34 +34,29 @@ class TravelController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Travel $travel, Request $request)
     {
-        Travel::create($request->all());
-        Session::flash('success', 'Travel stored');
-        return redirect()->back();
+        $travel->tasks()->create($request->all());
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Travel  $travel
+     * @param  \App\Task  $task
      * @return \Illuminate\Http\Response
      */
-    public function show(Travel $travel)
+    public function show(Task $task)
     {
-        return view('travels.show')->with([
-            'travel' => $travel,
-            'statuses' => Status::all()
-        ]);
+        //
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Travel  $travel
+     * @param  \App\Task  $task
      * @return \Illuminate\Http\Response
      */
-    public function edit(Travel $travel)
+    public function edit(Task $task)
     {
         //
     }
@@ -73,21 +65,22 @@ class TravelController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Travel  $travel
+     * @param  \App\Task  $task
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Travel $travel)
+    public function update(Request $request, Travel $travel, Task $task)
     {
-        //
+        $task->update($request->all());
+        return redirect()->back();
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Travel  $travel
+     * @param  \App\Task  $task
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Travel $travel)
+    public function destroy(Task $task)
     {
         //
     }

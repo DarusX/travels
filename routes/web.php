@@ -22,6 +22,7 @@ Route::resources([
 
 Route::prefix('/travels/{travel}')->group(function(){
     Route::resource('visits', 'VisitController');
+    Route::resource('tasks', 'TaskController');
 });
 
 Auth::routes();

@@ -14,7 +14,7 @@
                 </div>
                 <div class="form-group">
                     <label for="">{{__('Timezone')}}</label>
-                    <select name="timezone" class="form-control form-control-sm" required>
+                    <select name="timezone" class="form-control form-control-sm select2" required>
                         @foreach(timezone_identifiers_list() as $timezone)
                         <option value="$timezone">{{$timezone}}</option>
                         @endforeach
@@ -26,11 +26,11 @@
                 </div>
                 <div class="form-group">
                     <label for="">{{__('StartDate')}}</label>
-                    <input type="date" name="start_date" class="form-control form-control-sm" required>
+                    <input type="text" name="start_date" class="form-control form-control-sm datepicker" required>
                 </div>
                 <div class="form-group">
                     <label for="">{{__('EndDate')}}</label>
-                    <input type="date" name="end_date" class="form-control form-control-sm" required>
+                    <input type="text" name="end_date" class="form-control form-control-sm datepicker" required>
                 </div>
                 <div class="form-group">
                     <button type="submit" class="btn btn-sm btn-primary">{{__('Save')}}</button>
@@ -39,4 +39,15 @@
         </div>
     </div>
 </div>
+@endsection
+@section('js')
+<script>
+    $(".select2").select2()
+    $(".datepicker").datepicker({
+        dateFormat: "yy-mm-dd",
+        minDate: 0,
+        changeMonth: true,
+        changeYear: true
+    })
+</script>
 @endsection

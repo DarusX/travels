@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use App\User;
+use App\Status;
 
 class DatabaseSeeder extends Seeder
 {
@@ -18,5 +19,9 @@ class DatabaseSeeder extends Seeder
             'email' => 'mntr.rdrgz@gmail.com',
             'password' => bcrypt('123456')
         ]);
+
+        Status::create(['status' => 'Pending']);
+        Status::create(['status' => 'Working']);
+        Status::create(['status' => 'Done']);
     }
 }

@@ -35,47 +35,61 @@
                     <span aria-hidden="true"><i class="fas fa-times"></i></span>
                 </button>
             </div>
-            <div class="modal-body">
-                <div class="embed-responsive embed-responsive-4by3">
-                    <div class="embed-responsive-item" id="map"></div>
-                </div>
-                <form action="" method="post">
+            <form action="" method="post">
+                <div class="modal-body">
+                    <div class="embed-responsive embed-responsive-4by3">
+                        <div class="embed-responsive-item" id="map"></div>
+                    </div>
                     {{csrf_field()}}
                     <div class="form-group">
                         <label for="">{{__('Name')}}</label>
-                        <input type="text" name="name" class="form-control form-control-sm">
+                        <input type="text" name="name" class="form-control form-control-sm" required>
                     </div>
                     <div class="form-group">
                         <label for="">{{__('Address')}}</label>
-                        <input type="text" name="address" class="form-control form-control-sm">
+                        <input type="text" name="address" class="form-control form-control-sm" required>
                     </div>
                     <div class="form-group">
                         <label for="">{{__('StartDateTime')}}</label>
                         <div class="input-group">
-                            <input type="text" name="start_date" class="form-control form-control-sm" required>
+                            <input type="text" name="start_date" class="form-control form-control-sm datepicker" required>
                             <input type="time" name="start_time" class="form-control form-control-sm" required>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="">{{__('EndDateTime')}}</label>
                         <div class="input-group">
-                            <input type="text" name="end_date" class="form-control form-control-sm" required>
+                            <input type="text" name="end_date" class="form-control form-control-sm datepicker" required>
                             <input type="time" name="end_time" class="form-control form-control-sm" required>
                         </div>
                     </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-dark" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-dark" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">{{__('Save')}}</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
 @endsection
+@section('css')
+<style>
+    .datepicker {
+        z-index: 1600 !important;
+    }
+</style>
+@endsection
 @section('js')
 <script>
     var map;
+    $(".datepicker").datepicker({
+        dateFormat: "yy-mm-dd",
+        changeYear: true,
+        minDate: new Date(Date.parse("{{str_replace('-', '/', $travel->start_date)}}")),
+        maxDate: new Date(Date.parse("{{str_replace('-', '/', $travel->end_date)}}"))
+    })
+
     function initMap() {
         var geocoder = new google.maps.Geocoder
         map = new google.maps.Map(document.getElementById('map'), {
@@ -95,5 +109,5 @@
         })
     }
 </script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC6--aTCfHnIWexIQGMs9VvTMVAnrvVwRE&language=th&callback=initMap"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC6--aTCfHnIWexIQGMs9VvTMVAnrvVwRE&language=es&callback=initMap"></script>
 @endsection
