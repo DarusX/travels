@@ -10,6 +10,10 @@ use Illuminate\Support\Facades\Session;
 
 class VisitController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -43,9 +47,13 @@ class VisitController extends Controller
         return $travel->visits()->create([
             'name' => $request->name,
             'address' => $request->address,
+            'latitude' => $request->latitude,
+            'longitude' => $request->longitude,
             'start_datetime' => Carbon::parse("{$request->start_date} {$request->start_time}")->timezone('UTC'),
             'end_datetime' => Carbon::parse("{$request->end_date} {$request->end_time}")->timezone('UTC'),
         ]);
+
+        return redirect()->back();
     }
 
     /**

@@ -18,6 +18,8 @@ class CreateVisitsTable extends Migration
             $table->integer('travel_id')->unsigned();
             $table->string('name');
             $table->string('address');
+            $table->double('latitude');
+            $table->double('longitude');
             $table->timestamp('start_datetime');
             $table->timestamp('end_datetime')->nullable();
             $table->timestamps();

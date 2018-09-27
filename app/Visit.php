@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Visit extends Model
 {
     protected $fillable = [
-        'name', 'address', 'start_datetime', 'end_datetime'
+        'name', 'address', 'start_datetime', 'end_datetime', 'latitude', 'longitude'
     ];
 
     protected $dates = [

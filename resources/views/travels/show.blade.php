@@ -7,37 +7,20 @@
             <h4><span class="badge badge-dark">{{"{$travel->start_date} - {$travel->end_date}"}}</span></h4>
         </div>
         @foreach($statuses as $status)
-        <div class="col-md-4">
-            <div class="card bg-dark text-white">
-                <div class="card-header">
-                    @if($status->status == 'Pending')
-                    <button class="btn btn-sm btn-light" data-toggle="modal" data-target="#taskModal"><i class="fas fa-plus"></i></button>
-                    @endif
-                    <strong>{{$status->status}}</strong>
-                </div>
-                <ul class="list-group list-group-flush text-dark">
-                    @foreach($status->tasks as $task)
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <form action="{{route('tasks.update', ['travel' => $travel, 'task' => $task])}}" method="post">
-                            {{csrf_field()}}
-                            {{method_field('PUT')}}
-                            @switch($task->status->status)
-                            @case('Pending')
-                            <input type="hidden" name="status_id" value="{{$statuses->where('status', 'Working')->first()->id}}">
-                            @break
-                            @case('Working')
-                            <input type="hidden" name="status_id" value="{{$statuses->where('status', 'Done')->first()->id}}">
-                            @break
-                            @endswitch
-                            <button class="btn btn-sm btn-dark"><i class="fas fa-check"></i></button>
-                            {{$task->task}}
-                        </form> 
-                        <span class="badge badge-{{$task->color}}">{{$task->priority}} {{$task->created_at->timezone(Session::get('timezone'))}}</span>
-                    </li>
-                    @endforeach
-                </ul>
-            </div>
-        </div>
+            @switch($status->status)
+                @case('Pending')
+                    @pending(['status' => $status, 'travel' => $travel])
+                    @endpending
+                @break
+                @case('Working')
+                    @working(['status' => $status, 'travel' => $travel])
+                    @endworking
+                @break
+                @case('Done')
+                    @done(['status' => $status, 'travel' => $travel])
+                    @enddone
+                @break
+            @endswitch
         @endforeach
         <div class="col-md-12 pb-5">
         </div>
