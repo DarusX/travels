@@ -10,11 +10,6 @@
             <h1 class="title">{{$travel->travel}}</h1>
             <h4><span class="badge badge-dark">{{"{$travel->start_date} - {$travel->end_date}"}}</span></h4>
         </div>
-        <div class="col-md-8">
-            <div class="embed-responsive embed-responsive-16by9">
-                <div class="embed-responsive-item" id="map-show"></div>
-            </div>
-        </div>
         <div class="col-md-4">
             <div class="card">
                 <img class="card-img-top" src="{{asset('images/visits.jpg')}}" alt="Card image cap">
@@ -27,32 +22,40 @@
                 <ul class="list-group list-group-flush text-dark">
                     @foreach($travel->visits as $visit)
                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                        {{$visit->name}}
+                        <div>
+                            <button class="btn btn-sm btn-dark" onclick="zoom({{json_encode($visit)}})"><i class="fas fa-search-location"></i></button> <small>{{$visit->name}}</small>
+                        </div>
                         <span class="badge badge-dark">{{$visit->start_datetime->timezone(Session::get('timezone'))}}</span>
                     </li>
                     @endforeach
                 </ul>
             </div>
         </div>
-    </div>
-    <div class="row pt-5">
         <div class="col-md-8">
-            <div class="embed-responsive embed-responsive-16by9">
-                <div id="scheduler_here" class="dhx_cal_container embed-responsive-item">
-                    <div class="dhx_cal_navline">
-                        <div class="dhx_cal_prev_button">&nbsp;</div>
-                        <div class="dhx_cal_next_button">&nbsp;</div>
-                        <div class="dhx_cal_today_button"></div>
-                        <div class="dhx_cal_date"></div>
-                        <div class="dhx_cal_tab" name="day_tab" style="right:204px;"></div>
-                        <div class="dhx_cal_tab" name="week_tab" style="right:140px;"></div>
-                        <div class="dhx_cal_tab" name="month_tab" style="right:76px;"></div>
+            <div class="row">
+                <div class="col-md-12 pb-5">
+                    <div class="embed-responsive embed-responsive-16by9">
+                        <div class="embed-responsive-item" id="map-show"></div>
                     </div>
-                    <div class="dhx_cal_header"></div>
-                    <div class="dhx_cal_data"></div>
+                </div>
+                <div class="col-md-12">
+                    <div class="embed-responsive embed-responsive-16by9">
+                        <div id="scheduler_here" class="dhx_cal_container embed-responsive-item">
+                            <div class="dhx_cal_navline">
+                                <div class="dhx_cal_prev_button">&nbsp;</div>
+                                <div class="dhx_cal_next_button">&nbsp;</div>
+                                <div class="dhx_cal_today_button"></div>
+                                <div class="dhx_cal_date"></div>
+                                <div class="dhx_cal_tab" name="day_tab" style="right:204px;"></div>
+                                <div class="dhx_cal_tab" name="week_tab" style="right:140px;"></div>
+                                <div class="dhx_cal_tab" name="month_tab" style="right:76px;"></div>
+                            </div>
+                            <div class="dhx_cal_header"></div>
+                            <div class="dhx_cal_data"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
-
         </div>
     </div>
 </div>
@@ -97,6 +100,16 @@
                             <input type="time" name="end_time" class="form-control form-control-sm" required>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label for="">{{__('Priorioty')}}</label>
+                        <div class="input-group">
+                            <select name="priority" class="form-control form-control-sm">
+                                <option value="low">{{__('Low')}}</option>
+                                <option value="medium" selected>{{__('Medium')}}</option>
+                                <option value="high">{{__('High')}}</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-dark" data-dismiss="modal">Close</button>
@@ -125,8 +138,8 @@
     $(".datepicker").datepicker({
         dateFormat: "yy-mm-dd",
         changeYear: true,
-        minDate: new Date(Date.parse("{{str_replace('-', '/', $travel->start_date)}}")),
-        maxDate: new Date(Date.parse("{{str_replace('-', '/', $travel->end_date)}}"))
+        minDate: new Date(Date.parse("{{$travel->start_date->format('Y/m/d')}}")),
+        maxDate: new Date(Date.parse("{{$travel->end_date->format('Y/m/d')}}"))
     })
 
     initMap()
@@ -134,11 +147,13 @@
         var geocoder = new google.maps.Geocoder
         map = new google.maps.Map(document.getElementById('map'), {
             center: { lat: 0, lng: 0 },
-            zoom: 2
+            zoom: 2,
+            gestureHandling: "greedy"
         });
         mapShow = new google.maps.Map(document.getElementById('map-show'), {
             center: { lat: 0, lng: 0 },
-            zoom: 2
+            zoom: 2,
+            gestureHandling: "greedy"
         });
         map.addListener('click', function (event) {
             $("input[name='latitude']").val(event.latLng.lat())
@@ -154,8 +169,18 @@
             })
         })
     }
-    scheduler.init('scheduler_here', new Date(), "month");
-    
+    function zoom(data){
+        mapShow.setCenter(new google.maps.LatLng(data.latitude, data.longitude))
+        mapShow.setZoom(10)
+        console.log(data)
+    }
+    scheduler.attachEvent("onClick", function(){
+        return false
+    })
+    scheduler.config.resize_day_events = false;
+
+    scheduler.init('scheduler_here', new Date("{{$travel->start_date->format('m/d/Y')}}"), "month");
+
 </script>
 @foreach($travel->visits as $visit)
 <script>
@@ -168,7 +193,8 @@
         id: "{{$visit->id}}",
         text: "{{$visit->name}}",
         start_date: "{{$visit->start_datetime->timezone(Session::get('timezone'))->format('m/d/Y H:i')}}",
-        end_date: "{{$visit->end_datetime->timezone(Session::get('timezone'))->format('m/d/Y H:i')}}"
+        end_date: "{{$visit->end_datetime->timezone(Session::get('timezone'))->format('m/d/Y H:i')}}",
+        color: "{{$visit->color}}"
     })
     scheduler.parse(events, "json");
 </script>

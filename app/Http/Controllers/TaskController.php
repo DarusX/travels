@@ -41,6 +41,7 @@ class TaskController extends Controller
     public function store(Travel $travel, Request $request)
     {
         $travel->tasks()->create($request->all());
+        return redirect()->back();
     }
 
     /**

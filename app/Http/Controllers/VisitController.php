@@ -51,6 +51,7 @@ class VisitController extends Controller
             'longitude' => $request->longitude,
             'start_datetime' => Carbon::parse("{$request->start_date} {$request->start_time}")->timezone('UTC'),
             'end_datetime' => Carbon::parse("{$request->end_date} {$request->end_time}")->timezone('UTC'),
+            'priority' => $request->priority
         ]);
 
         return redirect()->back();

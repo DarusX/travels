@@ -20,6 +20,7 @@ class CreateVisitsTable extends Migration
             $table->string('address');
             $table->double('latitude');
             $table->double('longitude');
+            $table->enum('priority', ['low', 'medium', 'high']);
             $table->timestamp('start_datetime');
             $table->timestamp('end_datetime')->nullable();
             $table->timestamps();
