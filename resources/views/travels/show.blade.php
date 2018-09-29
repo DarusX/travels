@@ -2,10 +2,8 @@
 @section('content')
 <div class="container-fluid">
     <div class="row">
-        <div class="col-sm-12">
-            <h1 class="title">{{$travel->travel}}</h1>
-            <h4><span class="badge badge-dark">{{"{$travel->start_date} - {$travel->end_date}"}}</span></h4>
-        </div>
+        @breadcrumb(['travel' => $travel])
+        @endbreadcrumb
         @foreach($statuses as $status)
             @switch($status->status)
                 @case('Pending')
@@ -28,21 +26,21 @@
             <div class="jumbotron bg-success">
                 <h1 class="display-4">{{__('Visits')}}</h1>
                 <hr class="my-4">
-                <a class="btn btn-dark btn-lg" href="{{route('visits.index', $travel)}}" role="button">Learn more</a>
+                <a class="btn btn-dark btn-lg" href="{{route('visits.index', $travel)}}" role="button">@lang('button.show_more')</a>
             </div>
         </div>
         <div class="col-md-4">
             <div class="jumbotron bg-warning">
                 <h1 class="display-4">{{__('Trips')}}</h1>
                 <hr class="my-4">
-                <a class="btn btn-dark btn-lg" href="#" role="button">Learn more</a>
+                <a class="btn btn-dark btn-lg" href="#" role="button">@lang('button.show_more')</a>
             </div>
         </div>
         <div class="col-md-4">
             <div class="jumbotron bg-danger">
                 <h1 class="display-4">{{__('Expenses')}}</h1>
                 <hr class="my-4">
-                <a class="btn btn-dark btn-lg" href="#" role="button">Learn more</a>
+                <a class="btn btn-dark btn-lg" href="#" role="button">@lang('button.show_more')</a>
             </div>
         </div>
     </div>

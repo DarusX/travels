@@ -79,3 +79,12 @@
   color: $green !important;
 }
 
+
+.dropdown-dots.dropdown-toggle::after{
+  display: none;
+  margin-left: 0px;
+  font-family: "Font Awesome 5 Free"; 
+  font-weight: 900;
+  content: "\f142";
+}
+

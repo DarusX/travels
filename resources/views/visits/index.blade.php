@@ -2,14 +2,8 @@
 @section('content')
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-12">
-            @breadcrumb(['travel' => $travel])
-            @endbreadcrumb
-        </div>
-        <div class="col-sm-12">
-            <h1 class="title">{{$travel->travel}}</h1>
-            <h4><span class="badge badge-dark">{{"{$travel->start_date} - {$travel->end_date}"}}</span></h4>
-        </div>
+        @breadcrumb(['travel' => $travel])
+        @endbreadcrumb
         <div class="col-md-4">
             <div class="card">
                 <img class="card-img-top" src="{{asset('images/visits.jpg')}}" alt="Card image cap">
@@ -21,11 +15,13 @@
                 </div>
                 <ul class="list-group list-group-flush text-dark">
                     @foreach($travel->visits as $visit)
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <li class="list-group-item d-flex justify-content-between align-items-center py-0 pl-0 bg-light">
                         <div>
-                            <button class="btn btn-sm btn-dark" onclick="zoom({{json_encode($visit)}})"><i class="fas fa-search-location"></i></button> <small>{{$visit->name}}</small>
+                            <button class="btn btn-sm btn-light zoom" data-lat='{{$visit->latitude}}' data-lng="{{$visit->longitude}}"><i class="fas fa-ellipsis-v"></i></button>
+                            <button class="btn btn-sm btn-light zoom" data-lat='{{$visit->latitude}}' data-lng="{{$visit->longitude}}"><i class="fas fa-search"></i></button>
+                            <small>{{$visit->name}}</small>
                         </div>
-                        <span class="badge badge-dark">{{$visit->start_datetime->timezone(Session::get('timezone'))}}</span>
+                        <span class="badge badge-{{$visit->class_color}}">{{$visit->start_datetime->timezone(Session::get('timezone'))->format('D, M d, Y, H:i')}}</span>
                     </li>
                     @endforeach
                 </ul>
@@ -169,15 +165,15 @@
             })
         })
     }
-    function zoom(data){
-        mapShow.setCenter(new google.maps.LatLng(data.latitude, data.longitude))
-        mapShow.setZoom(10)
-        console.log(data)
-    }
     scheduler.attachEvent("onClick", function(){
         return false
     })
     scheduler.config.resize_day_events = false;
+    scheduler.config.readonly = true;
+    scheduler.attachEvent("onClick", function (id, e){
+        alert(id)
+       return true;
+  });
 
     scheduler.init('scheduler_here', new Date("{{$travel->start_date->format('m/d/Y')}}"), "month");
 
@@ -191,10 +187,11 @@
     })
     events.push({
         id: "{{$visit->id}}",
-        text: "{{$visit->name}}",
+        text: "<i class='fas fa-times'></i>  {{$visit->name}}",
         start_date: "{{$visit->start_datetime->timezone(Session::get('timezone'))->format('m/d/Y H:i')}}",
         end_date: "{{$visit->end_datetime->timezone(Session::get('timezone'))->format('m/d/Y H:i')}}",
-        color: "{{$visit->color}}"
+        color: "{{$visit->color}}",
+        holder: "{{Auth::user()->name}}"
     })
     scheduler.parse(events, "json");
 </script>

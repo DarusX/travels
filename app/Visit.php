@@ -30,4 +30,15 @@ class Visit extends Model
            
         }
     }
+    public function getClassColorAttribute()
+    {
+        switch ($this->priority) {
+            case 'high':
+                return "danger";
+                break;
+            default:
+                return "dark";
+                break;
+        }
+    }
 }
