@@ -33,15 +33,17 @@ $(document).ready(function()
     
     $(".logout").click(function(event){
         event.preventDefault()
-        $.ajax({
-            url: "/logout",
-            method: "POST",
-            success: (data) => {
-                location.reload()
-            }
-        })
+        let form = $("<form>", {
+            action: "/logout",
+            method: "POST"
+        }).append([
+            $("<input>", {
+                name: "_token",
+                value: csrf
+            }),
+        ]).appendTo("body").submit()
     })
-    $(".working").click(function(event){
+    $(".task-update").click(function(event){
         event.preventDefault()
         let form = $("<form>", {
             action: $(this).attr("href"),
@@ -55,10 +57,31 @@ $(document).ready(function()
                 name: "_method",
                 value: "PUT"
             }),
+        ])
+        switch ($(this).attr("data-status")) {
+            case "Pending":
+                form.append($("<input>", {name: "status_id", value: 2}))
+                break;
+            case "Working":
+                form.append($("<input>", {name: "status_id", value: 3}))
+                break;
+        }
+        form.appendTo("body").submit()
+    })
+    $(".delete").click(function(event){
+        event.preventDefault()
+        let form = $("<form>", {
+            action: $(this).attr("href"),
+            method: "POST"
+        }).append([
             $("<input>", {
-                name: "status_id",
-                value: 2
+                name: "_token",
+                value: csrf
             }),
+            $("<input>", {
+                name: "_method",
+                value: "DELETE"
+            })
         ]).appendTo("body").submit()
     })
     $(".zoom").click(function(event){

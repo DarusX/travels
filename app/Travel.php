@@ -23,4 +23,9 @@ class Travel extends Model
     {
         return $this->hasMany(Visit::class)->orderBy('start_datetime');
     }
+
+    public function expenses()
+    {
+        return $this->hasMany(Expense::class);
+    }
 }

@@ -15,7 +15,7 @@ class Task extends Model
         return $this->belongsTo(Status::class);
     }
 
-    public function getColorAttribute()
+    public function getClassColorAttribute()
     {
         switch ($this->priority) {
             case 'Low':
@@ -29,9 +29,16 @@ class Task extends Model
             case 'High':
                 return 'danger';
                 break;
-            
-            
         }
+    }
+    public function travel()
+    {
+        return $this->belongsTo(Travel::class);
+    }
+
+    public function comments()
+    {
+        return $this->morphMany('App\Comment', 'commentable');
     }
 
 }

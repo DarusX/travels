@@ -25,6 +25,11 @@ Route::resources([
 Route::prefix('/travels/{travel}')->group(function(){
     Route::resource('visits', 'VisitController');
     Route::resource('tasks', 'TaskController');
+    Route::resource('expenses', 'ExpenseController');
+
+    Route::prefix('/tasks/{task}')->group(function(){
+        Route::resource('comments', 'CommentController');
+    });
 });
 
 Auth::routes();

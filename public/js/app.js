@@ -13920,15 +13920,15 @@ $(document).ready(function () {
 
     $(".logout").click(function (event) {
         event.preventDefault();
-        $.ajax({
-            url: "/logout",
-            method: "POST",
-            success: function success(data) {
-                location.reload();
-            }
-        });
+        var form = $("<form>", {
+            action: "/logout",
+            method: "POST"
+        }).append([$("<input>", {
+            name: "_token",
+            value: csrf
+        })]).appendTo("body").submit();
     });
-    $(".working").click(function (event) {
+    $(".task-update").click(function (event) {
         event.preventDefault();
         var form = $("<form>", {
             action: $(this).attr("href"),
@@ -13939,9 +13939,28 @@ $(document).ready(function () {
         }), $("<input>", {
             name: "_method",
             value: "PUT"
+        })]);
+        switch ($(this).attr("data-status")) {
+            case "Pending":
+                form.append($("<input>", { name: "status_id", value: 2 }));
+                break;
+            case "Working":
+                form.append($("<input>", { name: "status_id", value: 3 }));
+                break;
+        }
+        form.appendTo("body").submit();
+    });
+    $(".delete").click(function (event) {
+        event.preventDefault();
+        var form = $("<form>", {
+            action: $(this).attr("href"),
+            method: "POST"
+        }).append([$("<input>", {
+            name: "_token",
+            value: csrf
         }), $("<input>", {
-            name: "status_id",
-            value: 2
+            name: "_method",
+            value: "DELETE"
         })]).appendTo("body").submit();
     });
     $(".zoom").click(function (event) {

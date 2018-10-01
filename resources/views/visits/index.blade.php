@@ -6,20 +6,26 @@
         @endbreadcrumb
         <div class="col-md-4">
             <div class="card">
-                <img class="card-img-top" src="{{asset('images/visits.jpg')}}" alt="Card image cap">
-                <div class="card-img-overlay text-white">
-                    <h2 class="title">{{__('Visits')}}</h2>
-                    <button type="button" class="btn btn-sm btn-light" data-toggle="modal" data-target="#visitModal">
-                        {{__('Register')}}
-                    </button>
+                <div class="card-header bg-dark text-white pl-0 py-1">
+                    <button class="btn btn-sm btn-dark" data-toggle="modal" data-target="#visitModal"><i class="fas fa-plus"></i></button>
+                    <strong>@lang('string.visits')</strong>
                 </div>
                 <ul class="list-group list-group-flush text-dark">
                     @foreach($travel->visits as $visit)
                     <li class="list-group-item d-flex justify-content-between align-items-center py-0 pl-0 bg-light">
                         <div>
-                            <button class="btn btn-sm btn-light zoom" data-lat='{{$visit->latitude}}' data-lng="{{$visit->longitude}}"><i class="fas fa-ellipsis-v"></i></button>
-                            <button class="btn btn-sm btn-light zoom" data-lat='{{$visit->latitude}}' data-lng="{{$visit->longitude}}"><i class="fas fa-search"></i></button>
-                            <small>{{$visit->name}}</small>
+                            <div class="dropdown">
+                                <button class="btn btn-light dropdown-toggle dropdown-dots" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-ellipsis-v"></i>
+                                </button>
+                                <button class="btn btn-sm btn-light zoom" data-lat='{{$visit->latitude}}' data-lng="{{$visit->longitude}}">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                                {{$visit->name}}
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item delete" href="{{route('visits.destroy', ['visit' => $visit, 'travel' => $travel])}}">@lang('string.delete')</a>
+                                </div>
+                            </div>
                         </div>
                         <span class="badge badge-{{$visit->class_color}}">{{$visit->start_datetime->timezone(Session::get('timezone'))->format('D, M d, Y, H:i')}}</span>
                     </li>
@@ -74,35 +80,34 @@
                     <input type="hidden" name="latitude">
                     <input type="hidden" name="longitude">
                     <div class="form-group">
-                        <label for="">{{__('Name')}}</label>
+                        <label for="">@lang('string.name')</label>
                         <input type="text" name="name" class="form-control form-control-sm" required>
                     </div>
                     <div class="form-group">
-                        <label for="">{{__('Address')}}</label>
+                        <label for="">@lang('string.address')</label>
                         <input type="text" name="address" class="form-control form-control-sm" required>
                     </div>
                     <div class="form-group">
-                        <label for="">{{__('StartDateTime')}} {{Session::get('timezone')}}</label>
+                        <label for="">@lang('string.start_datetime') {{Session::get('timezone')}}</label>
                         <div class="input-group">
-                            <input type="text" name="start_date" class="form-control form-control-sm datepicker"
+                            <input type="text" name="start_datetime" class="form-control form-control-sm datetimepicker"
                                 required>
-                            <input type="time" name="start_time" class="form-control form-control-sm" required>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="">{{__('EndDateTime')}} {{Session::get('timezone')}}</label>
+                        <label for="">@lang('string.end_datetime') {{Session::get('timezone')}}</label>
                         <div class="input-group">
-                            <input type="text" name="end_date" class="form-control form-control-sm datepicker" required>
-                            <input type="time" name="end_time" class="form-control form-control-sm" required>
+                            <input type="text" name="end_datetime" class="form-control form-control-sm datetimepicker"
+                                required>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="">{{__('Priorioty')}}</label>
+                        <label for="">@lang('string.priority')</label>
                         <div class="input-group">
                             <select name="priority" class="form-control form-control-sm">
-                                <option value="low">{{__('Low')}}</option>
-                                <option value="medium" selected>{{__('Medium')}}</option>
-                                <option value="high">{{__('High')}}</option>
+                                <option value="low">@lang('string.low')</option>
+                                <option value="medium" selected>@lang('string.medium')</option>
+                                <option value="high">@lang('string.high')</option>
                             </select>
                         </div>
                     </div>
@@ -131,9 +136,8 @@
     var map
     var mapShow
     var events = []
-    $(".datepicker").datepicker({
-        dateFormat: "yy-mm-dd",
-        changeYear: true,
+    $(".datetimepicker").bootstrapMaterialDatePicker({
+        format: "YYYY-M-DD HH:mm",
         minDate: new Date(Date.parse("{{$travel->start_date->format('Y/m/d')}}")),
         maxDate: new Date(Date.parse("{{$travel->end_date->format('Y/m/d')}}"))
     })
@@ -165,16 +169,16 @@
             })
         })
     }
-    scheduler.attachEvent("onClick", function(){
+    scheduler.attachEvent("onClick", function () {
         return false
     })
     scheduler.config.resize_day_events = false;
     scheduler.config.readonly = true;
-    scheduler.attachEvent("onClick", function (id, e){
-        alert(id)
-       return true;
-  });
-
+    
+    scheduler.attachEvent("onClick", function (id, e) {
+        alert(JSON.stringify(id))
+        return true;
+    });
     scheduler.init('scheduler_here', new Date("{{$travel->start_date->format('m/d/Y')}}"), "month");
 
 </script>

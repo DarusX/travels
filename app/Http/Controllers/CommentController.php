@@ -2,16 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Task;
+use App\Comment;
 use Illuminate\Http\Request;
 use App\Travel;
+use App\Task;
 
-class TaskController extends Controller
+class CommentController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
     /**
      * Display a listing of the resource.
      *
@@ -38,32 +35,30 @@ class TaskController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Travel $travel, Request $request)
+    public function store(Travel $travel, Task $task, Request $request)
     {
-        $travel->tasks()->create($request->all());
+        $task->comments()->create($request->all());
         return redirect()->back();
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Task  $task
+     * @param  \App\Comment  $comment
      * @return \Illuminate\Http\Response
      */
-    public function show(Travel $travel, Task $task)
+    public function show(Comment $comment)
     {
-        return view('tasks.show')->with([
-            'task' => $task
-        ]);
+        //
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Task  $task
+     * @param  \App\Comment  $comment
      * @return \Illuminate\Http\Response
      */
-    public function edit(Task $task)
+    public function edit(Comment $comment)
     {
         //
     }
@@ -72,24 +67,23 @@ class TaskController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Task  $task
+     * @param  \App\Comment  $comment
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Travel $travel, Task $task)
+    public function update(Request $request, Comment $comment)
     {
-        $task->update($request->all());
-        return redirect()->back();
+        //
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Task  $task
+     * @param  \App\Comment  $comment
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Travel $travel, Task $task)
+    public function destroy(Travel $travel, Task $task, Comment $comment)
     {
-        $task->delete();
+        $comment->delete();
         return redirect()->back();
     }
 }

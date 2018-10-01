@@ -44,13 +44,13 @@ class VisitController extends Controller
      */
     public function store(Request $request, Travel $travel)
     {
-        return $travel->visits()->create([
+        $travel->visits()->create([
             'name' => $request->name,
             'address' => $request->address,
             'latitude' => $request->latitude,
             'longitude' => $request->longitude,
-            'start_datetime' => Carbon::parse("{$request->start_date} {$request->start_time}")->timezone('UTC'),
-            'end_datetime' => Carbon::parse("{$request->end_date} {$request->end_time}")->timezone('UTC'),
+            'start_datetime' => Carbon::parse($request->start_datetime)->timezone('UTC'),
+            'end_datetime' => Carbon::parse($request->end_datetime)->timezone('UTC'),
             'priority' => $request->priority
         ]);
 
@@ -97,8 +97,9 @@ class VisitController extends Controller
      * @param  \App\Visit  $visit
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Visit $visit)
+    public function destroy(Travel $travel, Visit $visit)
     {
-        //
+        $visit->delete();
+        return redirect()->back();
     }
 }

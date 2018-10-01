@@ -24,23 +24,23 @@
         </div>
         <div class="col-md-4">
             <div class="jumbotron bg-success">
-                <h1 class="display-4">{{__('Visits')}}</h1>
+                <h1 class="display-4"><span class="badge badge-dark">{{$travel->visits->count()}}</span> @lang('string.visits')</h1>
                 <hr class="my-4">
                 <a class="btn btn-dark btn-lg" href="{{route('visits.index', $travel)}}" role="button">@lang('button.show_more')</a>
             </div>
         </div>
         <div class="col-md-4">
             <div class="jumbotron bg-warning">
-                <h1 class="display-4">{{__('Trips')}}</h1>
+                <h1 class="display-4">@lang('string.trips')</h1>
                 <hr class="my-4">
                 <a class="btn btn-dark btn-lg" href="#" role="button">@lang('button.show_more')</a>
             </div>
         </div>
         <div class="col-md-4">
             <div class="jumbotron bg-danger">
-                <h1 class="display-4">{{__('Expenses')}}</h1>
+                <h1 class="display-4"><span class="badge badge-dark">{{($travel->expenses->sum('ammount') * 100)/$travel->budget}} %</span>  @lang('string.expenses')</h1>
                 <hr class="my-4">
-                <a class="btn btn-dark btn-lg" href="#" role="button">@lang('button.show_more')</a>
+                <a class="btn btn-dark btn-lg" href="{{route('expenses.index', $travel)}}" role="button">@lang('button.show_more')</a>
             </div>
         </div>
     </div>
@@ -49,7 +49,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">{{__('RegisterTask')}}</h5>
+                <h5 class="modal-title">@lang('string.register')</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true"><i class="fas fa-times"></i></span>
                 </button>
@@ -59,25 +59,25 @@
                     {{csrf_field()}}
                     <input type="hidden" name="status_id" value="{{$statuses->where('status','Pending')->first()->id}}">
                     <div class="form-group">
-                        <label for="">{{__('Task')}}</label>
+                        <label for="">@lang('string.task')</label>
                         <input type="text" name="task" class="form-control form-control-sm">
                     </div>
                     <div class="form-group">
-                        <label for="">{{__('Priority')}}</label>
+                        <label for="">@lang('string.priority')</label>
                         <select name="priority" class="form-control form-control-sm">
-                            <option value="low">{{__('Low')}}</option>
-                            <option value="medium" selected>{{__('Medium')}}</option>
-                            <option value="high">{{__('High')}}</option>
+                            <option value="low">@lang('string.low')</option>
+                            <option value="medium" selected>@lang('string.medium')</option>
+                            <option value="high">@lang('string.high')</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="">{{__('Description')}}</label>
+                        <label for="">@lang('string.description')</label>
                         <textarea rows="5" name="description" class="form-control form-control-sm"></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-dark" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">{{__('Save')}}</button>
+                    <button type="button" class="btn btn-dark" data-dismiss="modal">@lang('button.close')</button>
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> @lang('button.save')</button>
                 </div>
             </form>
         </div>

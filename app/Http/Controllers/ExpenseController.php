@@ -2,24 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Task;
+use App\Expense;
 use Illuminate\Http\Request;
 use App\Travel;
 
-class TaskController extends Controller
+class ExpenseController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Travel $travel)
     {
-        //
+        return view('expenses.index')->with([
+            'travel' => $travel
+        ]);
     }
 
     /**
@@ -40,30 +38,28 @@ class TaskController extends Controller
      */
     public function store(Travel $travel, Request $request)
     {
-        $travel->tasks()->create($request->all());
+        $travel->expenses()->create($request->all());
         return redirect()->back();
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Task  $task
+     * @param  \App\Expense  $expense
      * @return \Illuminate\Http\Response
      */
-    public function show(Travel $travel, Task $task)
+    public function show(Expense $expense)
     {
-        return view('tasks.show')->with([
-            'task' => $task
-        ]);
+        //
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Task  $task
+     * @param  \App\Expense  $expense
      * @return \Illuminate\Http\Response
      */
-    public function edit(Task $task)
+    public function edit(Expense $expense)
     {
         //
     }
@@ -72,24 +68,23 @@ class TaskController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Task  $task
+     * @param  \App\Expense  $expense
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Travel $travel, Task $task)
+    public function update(Request $request, Expense $expense)
     {
-        $task->update($request->all());
-        return redirect()->back();
+        //
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Task  $task
+     * @param  \App\Expense  $expense
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Travel $travel, Task $task)
+    public function destroy(Travel $travel, Expense $expense)
     {
-        $task->delete();
+        $expense->delete();
         return redirect()->back();
     }
 }
