@@ -25,13 +25,16 @@
     </div>
     <div class="row">
         @foreach($task->comments as $comment)
-        <div class="col-sm-3">
-            <div class="card bg-light">
-                <div class="card-body d-flex justify-content-between align-items-center py-0 pl-0">
-                    <div>
-                        <a class="btn btn-light delete" href="{{route('comments.destroy', ['travel' => $task->travel, 'task' => $task, 'comment' => $comment])}}"><i class="fas fa-trash"></i></a> {{$comment->comment}}
-                    </div>
+        <div class="col-md-3 pb-4">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center py-0 pl-0 bg-dark text-white">
+                    <a class="btn btn-dark delete" href="{{route('comments.destroy', ['travel' => $task->travel, 'task' => $task, 'comment' => $comment])}}">
+                        <i class="fas fa-trash"></i>
+                    </a>
                     <span class="badge badge-dark">{{$comment->created_at->timezone(Session::get('timezone'))->format('d-m-Y H:i')}}</span>
+                </div>
+                <div class="card-body">
+                    <p class="px-0 my-0">{{$comment->comment}}</p>
                 </div>
             </div>
         </div>

@@ -33,7 +33,7 @@
             <div class="jumbotron bg-warning">
                 <h1 class="display-4">@lang('string.trips')</h1>
                 <hr class="my-4">
-                <a class="btn btn-dark btn-lg" href="#" role="button">@lang('button.show_more')</a>
+                <a class="btn btn-dark btn-lg" href="{{route('trips.index', $travel)}}" role="button">@lang('button.show_more')</a>
             </div>
         </div>
         <div class="col-md-4">
