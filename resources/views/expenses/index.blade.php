@@ -4,6 +4,9 @@
     <div class="row">
         @breadcrumb(['travel' => $travel])
         @endbreadcrumb
+        <div class="col-md-12">
+            <h2 class="title">@lang('string.expenses')</h2>
+        </div>
         <div class="col-sm-12">
             <form action="{{route('expenses.store', ['travel' => $travel])}}" method="post">
                 {{csrf_field()}}

@@ -3,17 +3,17 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12">
-            <h1 class="title">{{__('Travels')}}</h1>
+            <h1 class="title">@lang('string.travels')</h1>
         </div>
         <div class="col-md-12">
             <table class="table">
                 <thead>
                     <tr>
-                        <th>{{__('Travel')}}</th>
-                        <th>{{__('Budget')}}</th>
-                        <th>{{__('StartDate')}}</th>
-                        <th>{{__('EndDate')}}</th>
-                        <th>{{__('Actions')}}</th>
+                        <th>@lang('string.travel')</th>
+                        <th>@lang('string.budget')</th>
+                        <th>@lang('string.start_datetime')</th>
+                        <th>@lang('string.end_datetime')</th>
+                        <th>@lang('string.actions')</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -21,8 +21,8 @@
                     <tr>
                         <td>{{$travel->travel}}</td>
                         <td>{{number_format($travel->budget, 2)}}</td>
-                        <td>{{$travel->start_date}}</td>
-                        <td>{{$travel->end_date}}</td>
+                        <td>{{$travel->start_datetime->timezone(Session::get('timezone'))->format('D, M d, Y, H:i')}}</td>
+                        <td>{{$travel->end_datetime->timezone(Session::get('timezone'))->format('D, M d, Y, H:i')}}</td>
                         <td>
                             <a href="{{route('travels.show', $travel)}}" class="btn btn-sm btn-dark"><i class="fas fa-eye"></i></a>
                             <a href="{{route('travels.edit', $travel)}}" class="btn btn-sm btn-dark"><i class="fas fa-pen"></i></a>

@@ -19,7 +19,7 @@
                         </div>
                     </div>
                 </div>
-                <span class="badge badge-{{$task->class_color}}">{{$task->priority}}</span>
+                <span class="badge badge-{{$task->class_color}}"><i class="fas fa-info-circle"></i> {{$task->priority}}</span>
             </li>
             @endforeach
         </ul>

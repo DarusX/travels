@@ -7,11 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 class Travel extends Model
 {
     protected $fillable = [
-        'travel', 'budget', 'start_date', 'end_date'
+        'travel', 'budget', 'start_datetime', 'end_datetime'
     ];
 
     protected $dates = [
-        'created_at', 'updated_at', 'start_date', 'end_date'
+        'created_at', 'updated_at', 'start_datetime', 'end_datetime'
     ];
 
     public function tasks()
@@ -26,11 +26,11 @@ class Travel extends Model
 
     public function trips()
     {
-        return $this->hasMany(Trip::class);
+        return $this->hasMany(Trip::class)->orderBy('start_datetime');
     }
 
     public function expenses()
     {
-        return $this->hasMany(Expense::class);
+        return $this->hasMany(Expense::class)->orderBy('ammount');
     }
 }

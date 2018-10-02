@@ -6,6 +6,7 @@
  */
 
 require('./bootstrap');
+require('select2')
 
 window.Vue = require('vue');
 
@@ -22,6 +23,7 @@ window.Vue = require('vue');
 */
 var csrf
 $(document).ready(function()
+
 {
     csrf = $('meta[name="csrf-token"]').attr("content")
 
@@ -89,4 +91,10 @@ $(document).ready(function()
         mapShow.setZoom(15)
         mapShow.setCenter($(this).data())
     })
+    $("#timezoneModal").on("shown.bs.modal", function(event){
+        $(this).find("select").select2({
+            theme: "default"
+        })
+    })
+    $(".select2").select2()
 })

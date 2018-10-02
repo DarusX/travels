@@ -4,10 +4,13 @@
     <div class="row">
         @breadcrumb(['travel' => $travel])
         @endbreadcrumb
+        <div class="col-md-12">
+            <h2 class="title">@lang('string.trips')</h2>
+        </div>
         <div class="col-md-4">
             <div class="card">
                 <div class="card-header bg-dark text-white pl-0 py-1">
-                    <button class="btn btn-sm btn-dark" data-toggle="modal" data-target="#visitModal"><i class="fas fa-plus"></i></button>
+                    <button class="btn btn-sm btn-dark" data-toggle="modal" data-target="#tripModal"><i class="fas fa-plus"></i></button>
                     <strong>@lang('string.trips')</strong>
                 </div>
                 <ul class="list-group list-group-flush text-dark">
@@ -18,13 +21,13 @@
                                 <button class="btn btn-light dropdown-toggle dropdown-dots" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i class="fas fa-ellipsis-v"></i>
                                 </button>
-                                {{$visit->trip}}
+                                {{$trip->trip}}
                                 <div class="dropdown-menu">
-                                    <a class="dropdown-item delete" href="#">@lang('string.delete')</a>
+                                    <a class="dropdown-item delete" href="{{route('trips.destroy', ['travel' => $travel, 'trip' => $trip])}}">@lang('string.delete')</a>
                                 </div>
                             </div>
                         </div>
-                        <span class="badge badge-dark">{{$visit->start_datetime->timezone(Session::get('timezone'))->format('D, M d, Y, H:i')}}</span>
+                        <span class="badge badge-dark">{{$trip->start_datetime->timezone(Session::get('timezone'))->format('D, M d, Y, H:i')}}</span>
                     </li>
                     @endforeach
                 </ul>
@@ -59,7 +62,7 @@
     </div>
 </div>
 
-<div class="modal fade" id="visitModal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade" id="tripModal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -68,50 +71,36 @@
                     <span aria-hidden="true"><i class="fas fa-times"></i></span>
                 </button>
             </div>
-            <form action="{{route('visits.store', $travel)}}" method="post">
+            <form action="{{route('trips.store', $travel)}}" method="post">
                 <div class="modal-body">
                     <div class="embed-responsive embed-responsive-4by3">
                         <div class="embed-responsive-item" id="map"></div>
                     </div>
                     {{csrf_field()}}
-                    <input type="hidden" name="latitude">
-                    <input type="hidden" name="longitude">
+                    <input type="hidden" name="start_latitude">
+                    <input type="hidden" name="start_longitude">
+                    <input type="hidden" name="end_latitude">
+                    <input type="hidden" name="end_longitude">
                     <div class="form-group">
-                        <label for="">@lang('string.name')</label>
-                        <input type="text" name="name" class="form-control form-control-sm" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="">@lang('string.address')</label>
-                        <input type="text" name="address" class="form-control form-control-sm" required>
+                        <label for="">@lang('string.trip')</label>
+                        <input type="text" name="trip" class="form-control form-control-sm" required>
                     </div>
                     <div class="form-group">
                         <label for="">@lang('string.start_datetime') {{Session::get('timezone')}}</label>
                         <div class="input-group">
-                            <input type="text" name="start_datetime" class="form-control form-control-sm datetimepicker"
-                                required>
+                            <input type="text" name="start_datetime" class="form-control form-control-sm datetimepicker" required readonly>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="">@lang('string.end_datetime') {{Session::get('timezone')}}</label>
                         <div class="input-group">
-                            <input type="text" name="end_datetime" class="form-control form-control-sm datetimepicker"
-                                required>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="">@lang('string.priority')</label>
-                        <div class="input-group">
-                            <select name="priority" class="form-control form-control-sm">
-                                <option value="low">@lang('string.low')</option>
-                                <option value="medium" selected>@lang('string.medium')</option>
-                                <option value="high">@lang('string.high')</option>
-                            </select>
+                            <input type="text" name="end_datetime" class="form-control form-control-sm datetimepicker" required readonly>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-dark" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">{{__('Save')}}</button>
+                    <button type="button" class="btn btn-dark" data-dismiss="modal"> @lang('button.close')</button>
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> @lang('button.save')</button>
                 </div>
             </form>
         </div>
@@ -133,47 +122,50 @@
     var map
     var mapShow
     var events = []
+    var addresses = {start: "", end: ""}
+    var color
+    var bounds = new google.maps.LatLngBounds()
+    initMap()
     $(".datetimepicker").bootstrapMaterialDatePicker({
         format: "YYYY-M-DD HH:mm",
-        minDate: new Date(Date.parse("{{$travel->start_date->format('Y/m/d')}}")),
-        maxDate: new Date(Date.parse("{{$travel->end_date->format('Y/m/d')}}"))
+        minDate: new Date(Date.parse("{{$travel->start_datetime->format('Y/m/d')}}")),
+        maxDate: new Date(Date.parse("{{$travel->end_datetime->format('Y/m/d')}}"))
     })
-
-    initMap()
     function initMap() {
         var geocoder = new google.maps.Geocoder
         map = new google.maps.Map(document.getElementById('map'), {
             center: { lat: 0, lng: 0 },
             zoom: 2,
+            minZoom: 2,
             gestureHandling: "greedy",
-            mapTypeId: "roadmap"
         });
-        var flightPlanCoordinates = [
-          {lat: 37.772, lng: -122.214},
-          {lat: 21.291, lng: -157.821},
-          {lat: -18.142, lng: 178.431},
-          {lat: -27.467, lng: 153.027}
-        ];
-        var flightPath = new google.maps.Polyline({
-          path: flightPlanCoordinates,
-          geodesic: true,
-          strokeColor: '#FF0000',
-          strokeOpacity: 1.0,
-          strokeWeight: 2
-        });
-
         mapShow = new google.maps.Map(document.getElementById('map-show'), {
             center: { lat: 0, lng: 0 },
             zoom: 2,
+            minZoom: 2,
             gestureHandling: "greedy"
         });
-        flightPath.setMap(mapShow);
         start = new google.maps.Marker({
             position: new google.maps.LatLng(0,0),
             map: map,
             draggable: true,
             label: "A",
             title: "@lang('string.start')"
+        }).addListener('dragend', function (event) {
+           $("input[name='start_latitude']").val(event.latLng.lat())
+           $("input[name='start_longitude']").val(event.latLng.lng())
+           geocoder.geocode({
+                location: event.latLng
+            }, function (results, status) {
+                if (status === "OK") {
+                    $.each(results[0].address_components, (i, component) => {
+                        $.each(component.types, (j, type) => {
+                            if(type == "administrative_area_level_1") addresses.start = component.long_name
+                        })
+                    })
+                }
+                $("input[name='trip']").val(getTripRoute())
+            })
         })
         end = new google.maps.Marker({
             position: new google.maps.LatLng(0,0),
@@ -181,20 +173,25 @@
             draggable: true,
             label: "B",
             title: "@lang('string.end')"
-        })
-        map.addListener('click', function (event) {
-            $("input[name='latitude']").val(event.latLng.lat())
-            $("input[name='longitude']").val(event.latLng.lng())
-            geocoder.geocode({
+        }).addListener('dragend', function (event) {
+           $("input[name='end_latitude']").val(event.latLng.lat())
+           $("input[name='end_longitude']").val(event.latLng.lng())
+           geocoder.geocode({
                 location: event.latLng
             }, function (results, status) {
                 if (status === "OK") {
-                    $("#visitModal").find("input[name='address']").val(results[0].formatted_address)
-                } else {
-                    $("#visitModal").find("input[name='address']").val("")
+                    $.each(results[0].address_components, (i, component) => {
+                        $.each(component.types, (j, type) => {
+                            if(type == "administrative_area_level_1") addresses.end = component.long_name
+                        })
+                    })
                 }
+                $("input[name='trip']").val(getTripRoute())
             })
         })
+    }
+    function getTripRoute(){
+        return addresses.start + " - " + addresses.end
     }
     scheduler.attachEvent("onClick", function () {
         return false
@@ -206,26 +203,30 @@
         alert(JSON.stringify(id))
         return true;
     });
-    scheduler.init('scheduler_here', new Date("{{$travel->start_date->format('m/d/Y')}}"), "month");
+    scheduler.init('scheduler_here', new Date("{{$travel->start_datetime->format('m/d/Y')}}"), "week");
 
 </script>
-@foreach($travel->visits as $visit)
+@foreach($travel->trips as $trip)
 <script>
-    new google.maps.Marker({
-        position: new google.maps.LatLng("{{$visit->latitude}}", "{{$visit->longitude}}"),
-        map: mapShow,
-        title: "{{$visit->name}}"
-    })
+    color = "{{$trip->color}}"
     events.push({
-        id: "{{$visit->id}}",
-        text: "<i class='fas fa-times'></i>  {{$visit->name}}",
-        start_date: "{{$visit->start_datetime->timezone(Session::get('timezone'))->format('m/d/Y H:i')}}",
-        end_date: "{{$visit->end_datetime->timezone(Session::get('timezone'))->format('m/d/Y H:i')}}",
-        color: "{{$visit->color}}",
-        holder: "{{Auth::user()->name}}"
+        id: "{{$trip->id}}",
+        text: "<i class='fas fa-times'></i>  {{$trip->trip}}",
+        start_date: "{{$trip->start_datetime->timezone(Session::get('timezone'))->format('m/d/Y H:i')}}",
+        end_date: "{{$trip->end_datetime->timezone(Session::get('timezone'))->format('m/d/Y H:i')}}",
+        color: color,
     })
     scheduler.parse(events, "json");
+    new google.maps.Polyline({
+          path: [
+              new google.maps.LatLng("{{$trip->start_latitude}}", "{{$trip->start_longitude}}"),
+              new google.maps.LatLng("{{$trip->end_latitude}}", "{{$trip->end_longitude}}"),
+          ],
+          geodesic: true,
+          strokeColor: color,
+          strokeOpacity: 1.0,
+          strokeWeight: 2,
+        }).setMap(mapShow);
 </script>
 @endforeach
-
 @endsection

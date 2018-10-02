@@ -56,11 +56,11 @@
         </div>
     </div>
 </nav>
-<div class="modal fade" id="timezoneModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="timezoneModal" role="dialog" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">{{__('Timezone')}}</h5>
+                <h5 class="modal-title">{{__('Timezone')}}</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -69,7 +69,7 @@
                 <div class="modal-body">
                     {{csrf_field()}}
                     <div class="form-group">
-                        <label for="">{{__('Timezone')}}</label>
+                        <label for="">@lang('string.timezone')</label>
                         <select name="timezone" class="form-control form-control-sm select2" required>
                             @foreach(timezone_identifiers_list() as $timezone)
                             <option value="{{$timezone}}" {{($timezone == Session::get('timezone'))?'selected':''}}>{{$timezone}}</option>
@@ -78,8 +78,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('button.close')</button>
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> @lang('button.save')</button>
                 </div>
             </form>
         </div>

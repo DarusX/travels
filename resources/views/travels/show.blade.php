@@ -24,21 +24,21 @@
         </div>
         <div class="col-md-4">
             <div class="jumbotron bg-success">
-                <h1 class="display-4"><span class="badge badge-dark">{{$travel->visits->count()}}</span> @lang('string.visits')</h1>
+                <h1 class="display-5"><span class="badge badge-dark">{{$travel->visits->count()}}</span> @lang('string.visits')</h1>
                 <hr class="my-4">
                 <a class="btn btn-dark btn-lg" href="{{route('visits.index', $travel)}}" role="button">@lang('button.show_more')</a>
             </div>
         </div>
         <div class="col-md-4">
             <div class="jumbotron bg-warning">
-                <h1 class="display-4">@lang('string.trips')</h1>
+                <h1 class="display-5"><span class="badge badge-dark">{{$travel->trips->count()}}</span> @lang('string.trips')</h1>
                 <hr class="my-4">
                 <a class="btn btn-dark btn-lg" href="{{route('trips.index', $travel)}}" role="button">@lang('button.show_more')</a>
             </div>
         </div>
         <div class="col-md-4">
             <div class="jumbotron bg-danger">
-                <h1 class="display-4"><span class="badge badge-dark">{{($travel->expenses->sum('ammount') * 100)/$travel->budget}} %</span>  @lang('string.expenses')</h1>
+                <h1 class="display-5"><span class="badge badge-dark">{{($travel->expenses->sum('ammount') * 100)/$travel->budget}} %</span>  @lang('string.expenses')</h1>
                 <hr class="my-4">
                 <a class="btn btn-dark btn-lg" href="{{route('expenses.index', $travel)}}" role="button">@lang('button.show_more')</a>
             </div>

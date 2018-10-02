@@ -11,5 +11,18 @@ return [
     'comment' => 'Comment',
     'expense' => 'Expense',
     'expenses' => 'Expenses',
-    'ammount' => 'Ammount'
+    'ammount' => 'Ammount',
+    'task' => 'Task',
+    'priority' => 'Priority',
+    'register' => 'Register',
+    'description' => 'Description',
+    'low' => 'Low',
+    'medium' => 'Medium',
+    'high' => 'High',
+    'travels' => 'Travels',
+    'travel' => 'Travel',
+    'start_datetime' => 'Start datetime',
+    'end_datetime' => 'End datetime',
+    'actions' => 'Actions',
+    'budget' => 'Budget'
 ];

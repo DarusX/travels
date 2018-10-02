@@ -20,7 +20,6 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" />
     <link rel="stylesheet" href="{{asset('lib/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css')}}">
     @yield('css')
@@ -32,7 +31,6 @@
         <main class="py-4">
             @yield('content')
         </main>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.full.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
         <script src="{{asset('lib/moment/moment.js')}}"></script>
         <script src="{{asset('lib/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js')}}"></script>

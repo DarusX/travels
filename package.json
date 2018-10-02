@@ -21,6 +21,6 @@
     },
     "dependencies": {
         "@fortawesome/fontawesome-free": "^5.3.1",
-        "select2": "4.0.5"
+        "select2": "4.0.1"
     }
 }

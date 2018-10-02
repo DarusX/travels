@@ -4,7 +4,10 @@
     <div class="row">
         @breadcrumb(['travel' => $travel])
         @endbreadcrumb
-        <div class="col-md-4">
+        <div class="col-md-12">
+            <h2 class="title">@lang('string.visits')</h2>
+        </div>
+        <div class="col-md-4 pb-4">
             <div class="card">
                 <div class="card-header bg-dark text-white pl-0 py-1">
                     <button class="btn btn-sm btn-dark" data-toggle="modal" data-target="#visitModal"><i class="fas fa-plus"></i></button>
@@ -33,7 +36,7 @@
                 </ul>
             </div>
         </div>
-        <div class="col-md-8">
+        <div class="col-md-8 d-none d-sm-block">
             <div class="row">
                 <div class="col-md-12 pb-5">
                     <div class="embed-responsive embed-responsive-16by9">
@@ -138,8 +141,8 @@
     var events = []
     $(".datetimepicker").bootstrapMaterialDatePicker({
         format: "YYYY-M-DD HH:mm",
-        minDate: new Date(Date.parse("{{$travel->start_date->format('Y/m/d')}}")),
-        maxDate: new Date(Date.parse("{{$travel->end_date->format('Y/m/d')}}"))
+        minDate: new Date(Date.parse("{{$travel->start_datetime->format('Y/m/d')}}")),
+        maxDate: new Date(Date.parse("{{$travel->end_datetime->format('Y/m/d')}}"))
     })
 
     initMap()
@@ -148,11 +151,13 @@
         map = new google.maps.Map(document.getElementById('map'), {
             center: { lat: 0, lng: 0 },
             zoom: 2,
+            minZoom: 2,
             gestureHandling: "greedy"
         });
         mapShow = new google.maps.Map(document.getElementById('map-show'), {
             center: { lat: 0, lng: 0 },
             zoom: 2,
+            minZoom: 2,
             gestureHandling: "greedy"
         });
         map.addListener('click', function (event) {
@@ -179,7 +184,7 @@
         alert(JSON.stringify(id))
         return true;
     });
-    scheduler.init('scheduler_here', new Date("{{$travel->start_date->format('m/d/Y')}}"), "month");
+    scheduler.init('scheduler_here', new Date("{{$travel->start_datetime->format('m/d/Y')}}"), "week");
 
 </script>
 @foreach($travel->visits as $visit)

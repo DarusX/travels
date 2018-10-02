@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Trip;
 use Illuminate\Http\Request;
 use App\Travel;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Session;
 
 class TripController extends Controller
 {
@@ -36,9 +38,18 @@ class TripController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Travel $travel, Request $request)
     {
-        //
+        $travel->trips()->create([
+            'trip' => $request->trip,
+            'start_latitude' => $request->start_latitude,
+            'start_longitude' => $request->start_longitude,
+            'end_latitude' => $request->end_latitude,
+            'end_longitude' => $request->end_longitude,
+            'start_datetime' => Carbon::parse($request->start_datetime)->timezone(Session::get('timezone')),
+            'end_datetime' => Carbon::parse($request->end_datetime)->timezone(Session::get('timezone')),
+        ]);
+        return redirect()->back();
     }
 
     /**
@@ -81,8 +92,9 @@ class TripController extends Controller
      * @param  \App\Trip  $trip
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Trip $trip)
+    public function destroy(Travel $travel,  Trip $trip)
     {
-        //
+        $trip->delete();
+        return redirect()->back();
     }
 }

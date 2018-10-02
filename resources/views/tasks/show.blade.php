@@ -4,13 +4,13 @@
     <div class="row">
         @breadcrumb(['travel' => $task->travel])
         @endbreadcrumb
-        <div class="col-sm-12">
+       <div class="col-md-12">
             <h2 class="title">{{$task->task}} <span class="badge badge-{{$task->class_color}}">{{$task->priority}}</span></h2>
             @isset($task->description)
             <p>{{$task->description}}</p>
             @endisset
         </div>
-        <div class="col-sm-12">
+        <div class="col-md-12">
             <form action="{{route('comments.store', ['travel' => $task->travel, 'task' => $task])}}" method="post">
                 {{csrf_field()}}
                 <label for="basic-url">@lang('string.comment')</label>
