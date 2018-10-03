@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Session;
 use App\Status;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use App\Timezone;
 
 class TravelController extends Controller
 {
@@ -51,14 +52,17 @@ class TravelController extends Controller
      */
     public function store(Request $request)
     {
+        //return Carbon::parse($request->end_datetime);
         Auth::user()->travels()->create([
             'budget' => $request->budget,
             'travel' => $request->travel,
-            'start_datetime' => Carbon::parse($request->start_datetime)->timezone(Session::get('timezone')),
-            'end_datetime' => Carbon::parse($request->end_datetime)->timezone(Session::get('timezone')),
+            'start_datetime' => Carbon::createFromFormat('Y-m-d H:i', "{$request->start_datetime}"),
+            'end_datetime' => Carbon::createFromFormat('Y-m-d H:i', "{$request->end_datetime}"),
+            'start_timezone_id' => Timezone::whereTimezone(Session::get('timezone'))->first()->id,
+            'end_timezone_id' => Timezone::whereTimezone(Session::get('timezone'))->first()->id,
         ]);
         Session::flash('success', 'Travel stored');
-        return redirect()->back();
+        //return redirect()->back();
     }
 
     /**
@@ -106,6 +110,7 @@ class TravelController extends Controller
      */
     public function destroy(Travel $travel)
     {
-        //
+        $travel->delete();
+        return redirect()->back();
     }
 }

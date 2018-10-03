@@ -17,6 +17,9 @@
 
 @import '~select2/src/scss/core';
 
+@import '~jquery-ui/themes/base/all.css';
+@import '~jquery-ui-timepicker-addon/dist/jquery-ui-timepicker-addon';
+
 .navbar-laravel {
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);

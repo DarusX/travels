@@ -30,7 +30,7 @@
                                 </div>
                             </div>
                         </div>
-                        <span class="badge badge-{{$visit->class_color}}">{{$visit->start_datetime->format('D, M d, Y, H:i')}}</span>
+                        <span class="badge badge-dark">{{$visit->start}}</span>
                     </li>
                     @endforeach
                 </ul>
@@ -93,14 +93,13 @@
                     <div class="form-group">
                         <label for="">@lang('string.start_datetime') {{Session::get('timezone')}}</label>
                         <div class="input-group">
-                            <input type="datetime-local" name="start_datetime" class="form-control form-control-sm" required>
+                            <input type="text" name="start_datetime" class="form-control form-control-sm datetimepicker" required readonly>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="">@lang('string.end_datetime') {{Session::get('timezone')}}</label>
                         <div class="input-group">
-                            <input type="datetime-local" name="end_datetime" class="form-control form-control-sm"
-                                required>
+                            <input type="text" name="end_datetime" class="form-control form-control-sm datetimepicker" required readonly>
                         </div>
                     </div>
                     <div class="form-group">
@@ -115,8 +114,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-dark" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">{{__('Save')}}</button>
+                    <button type="button" class="btn btn-dark" data-dismiss="modal">@lang('button.close')</button>
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> @lang('button.save')</button>
                 </div>
             </form>
         </div>
@@ -126,7 +125,7 @@
 @section('css')
 <link rel="stylesheet" href="{{asset('lib/dhtmlx/scheduler/dhtmlxscheduler_material.css')}}">
 <style>
-    .datepicker {
+    .datetimepicker {
         z-index: 1600 !important;
     }
 </style>
@@ -138,8 +137,8 @@
     var map
     var mapShow
     var events = []
-    $(".datetimepicker").bootstrapMaterialDatePicker({
-        format: "M-DD-YYYY hh:mm A",
+    $(".datetimepicker").datetimepicker({
+        dateFormat: "yy-mm-dd",
         minDate: new Date(Date.parse("{{$travel->start_datetime->format('Y/m/d')}}")),
         maxDate: new Date(Date.parse("{{$travel->end_datetime->format('Y/m/d')}}"))
     })

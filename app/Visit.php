@@ -3,42 +3,36 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Session;
+use Carbon\Carbon;
 
 class Visit extends Model
 {
     protected $fillable = [
-        'name', 'address', 'start_datetime', 'end_datetime', 'latitude', 'longitude', 'priority'
+        'name', 'address', 'start_datetime', 'end_datetime', 'latitude', 'longitude', 'priority', 'start_timezone_id', 'end_timezone_id'
     ];
 
     protected $dates = [
         'created_at', 'updated_at', 'start_datetime', 'end_datetime'
     ];
 
-    public function getColorAttribute()
+    public function getStartAttribute()
     {
-        switch ($this->priority) {
-            case 'high':
-                return "#e3342f";
-                break;
-            case 'medium':
-                return "#4dc0b5";
-                break;
-            case 'low':
-                return "#38c172";
-                break;
-            
-           
-        }
+        return Carbon::createFromFormat('Y-m-d H:i:s', $this->start_datetime, $this->startTimezone->timezone)->setTimezone(Session::get('timezone'));
     }
-    public function getClassColorAttribute()
+
+    public function getEndAttribute()
     {
-        switch ($this->priority) {
-            case 'high':
-                return "danger";
-                break;
-            default:
-                return "dark";
-                break;
-        }
+        return Carbon::createFromFormat('Y-m-d H:i:s', $this->end_datetime, $this->endTimezone->timezone)->setTimezone(Session::get('timezone'));
+    }
+
+    public function startTimezone()
+    {
+        return $this->belongsTo(Timezone::class, 'start_timezone_id');
+    }
+    
+    public function EndTimezone()
+    {
+        return $this->belongsTo(Timezone::class, 'end_timezone_id');
     }
 }

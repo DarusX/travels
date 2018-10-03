@@ -15,15 +15,11 @@
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" />
-    <link rel="stylesheet" href="{{asset('lib/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css')}}">
     @yield('css')
-    
 </head>
 <body>
     <div id="app">
@@ -31,9 +27,6 @@
         <main class="py-4">
             @yield('content')
         </main>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-        <script src="{{asset('lib/moment/moment.js')}}"></script>
-        <script src="{{asset('lib/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js')}}"></script>
         @yield('js')
     </div>
 </body>

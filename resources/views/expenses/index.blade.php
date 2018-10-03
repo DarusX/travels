@@ -5,7 +5,11 @@
         @breadcrumb(['travel' => $travel])
         @endbreadcrumb
         <div class="col-md-12">
-            <h2 class="title">@lang('string.expenses')</h2>
+            <h2 class="title">
+                @lang('string.expenses') 
+                <span class="badge badge-dark">{{($travel->expenses->sum('ammount') * 100) / $travel->budget}} %</span>
+                <span class="badge badge-dark"><i class="fas fa-caret-down"></i> {{number_format($travel->expenses->sum('ammount') / 1000, 2)}}K</span>
+            </h2>
         </div>
         <div class="col-sm-12">
             <form action="{{route('expenses.store', ['travel' => $travel])}}" method="post">

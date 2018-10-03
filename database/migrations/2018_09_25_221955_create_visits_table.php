@@ -21,8 +21,8 @@ class CreateVisitsTable extends Migration
             $table->double('latitude');
             $table->double('longitude');
             $table->enum('priority', ['low', 'medium', 'high']);
-            $table->timestamp('start_datetime');
-            $table->timestamp('end_datetime')->nullable();
+            $table->datetime('start_datetime');
+            $table->dateTime('end_datetime');
             $table->timestamps();
 
             $table->foreign('travel_id')->references('id')->on('travels');

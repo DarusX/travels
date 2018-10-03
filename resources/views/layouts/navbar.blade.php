@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
     <div class="container-fluid">
         <a class="navbar-brand" href="{{ url('/') }}">
-            {{ config('app.name', 'Laravel') }}
+            <img src="{{asset('images/borboleta.svg')}}" alt="" height="25px"> {{config('app.name')}}
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
@@ -12,14 +12,13 @@
             <!-- Left Side Of Navbar -->
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true"
-                        aria-expanded="false" v-pre>
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                         {{__('Travels')}} <span class="caret"></span>
                     </a>
 
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                        <a href="{{route('travels.index')}}" class="dropdown-item">{{__('Travels')}}</a>
-                        <a href="{{route('travels.create')}}" class="dropdown-item">{{__('Create')}}</a>
+                        <a href="{{route('travels.index')}}" class="dropdown-item">@lang('string.travels')</a>
+                        <a href="{{route('travels.create')}}" class="dropdown-item">@lang('string.register')</a>
                     </div>
                 </li>
             </ul>
@@ -29,15 +28,16 @@
                 <!-- Authentication Links -->
                 @guest
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                    <a class="nav-link" href="{{ route('login') }}">@lang('string.login')</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                    <a class="nav-link" href="{{ route('register') }}">@lang('string.register')</a>
                 </li>
                 @else
                 <li class="nav-item">
                     <a href="#" class="nav-link" data-toggle="modal" data-target="#timezoneModal"><i class="fas fa-globe"></i>
-                        {{Session::get('timezone')}}</a>
+                        {{Session::get('timezone')}}
+                    </a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true"
@@ -47,7 +47,7 @@
 
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item logout" href="#">
-                            {{ __('Logout') }}
+                            @lang('string.logout')
                         </a>
                     </div>
                 </li>
@@ -60,7 +60,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">{{__('Timezone')}}</h5>
+                <h5 class="modal-title">@lang('string.timezone')</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -71,8 +71,8 @@
                     <div class="form-group">
                         <label for="">@lang('string.timezone')</label>
                         <select name="timezone" class="form-control form-control-sm select2" required>
-                            @foreach(timezone_identifiers_list() as $timezone)
-                            <option value="{{$timezone}}" {{($timezone == Session::get('timezone'))?'selected':''}}>{{$timezone}}</option>
+                            @foreach($timezones as $timezone)
+                            <option value="{{$timezone->timezone}}" {{($timezone->timezone == Session::get('timezone'))?'selected':''}}>{{$timezone->timezone}}</option>
                             @endforeach
                         </select>
                     </div>

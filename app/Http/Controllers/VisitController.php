@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Travel;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Session;
+use App\Timezone;
 
 class VisitController extends Controller
 {
@@ -55,9 +56,11 @@ class VisitController extends Controller
             'address' => $request->address,
             'latitude' => $request->latitude,
             'longitude' => $request->longitude,
-            'start_datetime' => Carbon::parse($request->start_datetime)->timezone(Session::get('timezone')),
-            'end_datetime' => Carbon::parse($request->end_datetime)->timezone(Session::get('timezone')),
-            'priority' => $request->priority
+            'start_datetime' => Carbon::createFromFormat('Y-m-d H:i', "{$request->start_datetime}"),
+            'end_datetime' => Carbon::createFromFormat('Y-m-d H:i', "{$request->end_datetime}"),
+            'priority' => $request->priority,
+            'start_timezone_id' => Timezone::whereTimezone(Session::get('timezone'))->first()->id,
+            'end_timezone_id' => Timezone::whereTimezone(Session::get('timezone'))->first()->id,
         ]);
 
         return redirect()->back();

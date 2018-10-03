@@ -27,7 +27,7 @@
                                 </div>
                             </div>
                         </div>
-                        <span class="badge badge-dark">{{$trip->start_datetime->timezone(Session::get('timezone'))->format('D, M d, Y, H:i')}}</span>
+                        <span class="badge badge-dark">{{$trip->start->format('D, M d, Y, H:i')}}</span>
                     </li>
                     @endforeach
                 </ul>
@@ -110,7 +110,7 @@
 @section('css')
 <link rel="stylesheet" href="{{asset('lib/dhtmlx/scheduler/dhtmlxscheduler_material.css')}}">
 <style>
-    .datepicker {
+    .datetimepicker {
         z-index: 1600 !important;
     }
 </style>
@@ -126,10 +126,10 @@
     var color
     var bounds = new google.maps.LatLngBounds()
     initMap()
-    $(".datetimepicker").bootstrapMaterialDatePicker({
-        format: "YYYY-M-DD hh:mm A",
-        minDate: new Date(Date.parse("{{$travel->start_datetime->format('Y/m/d')}}")),
-        maxDate: new Date(Date.parse("{{$travel->end_datetime->format('Y/m/d')}}"))
+    $(".datetimepicker").datetimepicker({
+        dateFormat: "yy-mm-dd",
+        minDate: new Date(Date.parse("{{$travel->start->format('Y/m/d')}}")),
+        maxDate: new Date(Date.parse("{{$travel->end->format('Y/m/d')}}"))
     })
     function initMap() {
         var geocoder = new google.maps.Geocoder
@@ -203,7 +203,7 @@
         alert(JSON.stringify(id))
         return true;
     });
-    scheduler.init('scheduler_here', new Date("{{$travel->start_datetime->format('m/d/Y')}}"), "week");
+    scheduler.init('scheduler_here', new Date("{{$travel->start->format('m/d/Y')}}"), "week");
 
 </script>
 @foreach($travel->trips as $trip)
@@ -212,8 +212,8 @@
     events.push({
         id: "{{$trip->id}}",
         text: "<i class='fas fa-times'></i>  {{$trip->trip}}",
-        start_date: "{{$trip->start_datetime->timezone(Session::get('timezone'))->format('m/d/Y H:i')}}",
-        end_date: "{{$trip->end_datetime->timezone(Session::get('timezone'))->format('m/d/Y H:i')}}",
+        start_date: "{{$trip->start->format('m/d/Y H:i')}}",
+        end_date: "{{$trip->end->format('m/d/Y H:i')}}",
         color: color,
     })
     scheduler.parse(events, "json");

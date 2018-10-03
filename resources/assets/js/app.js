@@ -7,6 +7,11 @@
 
 require('./bootstrap');
 require('select2')
+require('jquery-ui')
+require('jquery-ui/ui/widget');
+require('jquery-ui/ui/widgets/datepicker');
+require('jquery-ui/ui/widgets/slider');
+require('jquery-ui-timepicker-addon')
 
 window.Vue = require('vue');
 
@@ -97,4 +102,5 @@ $(document).ready(function()
         })
     })
     $(".select2").select2()
+
 })

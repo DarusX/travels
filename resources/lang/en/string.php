@@ -24,5 +24,9 @@ return [
     'start_datetime' => 'Start datetime',
     'end_datetime' => 'End datetime',
     'actions' => 'Actions',
-    'budget' => 'Budget'
+    'budget' => 'Budget',
+    'address' => 'Address',
+    'name' => 'Name',
+    'trip' => 'Trip',
+    'logout' => 'Logout'
 ];

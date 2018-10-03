@@ -1,8 +1,8 @@
 <div class="col-sm-12">
     <h1 class="title">{{$travel->travel}}</h1>
     <h4>
-        <span class="badge badge-dark"><i class="fas fa-calendar"></i> {{"{$travel->start_datetime->format('D, M d, Y H:i')} - {$travel->end_datetime->format('D, M d, Y H:i')}"}}</span>
-        <span class="badge badge-dark"><i class="fas fa-calendar"></i> {{$travel->start_datetime->timezone(Session::get('timezone'))->diffForHumans()}}</span>
+        <span class="badge badge-dark"><i class="fas fa-calendar"></i> {{"{$travel->start->format('D, M d, Y H:i')} - {$travel->end->format('D, M d, Y H:i')}"}}</span>
+        <span class="badge badge-dark"><i class="fas fa-calendar"></i> {{$travel->start->diffForHumans()}}</span>
     </h4>
 </div>
 <div class="col-md-12">
