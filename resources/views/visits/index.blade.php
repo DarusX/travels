@@ -30,7 +30,7 @@
                                 </div>
                             </div>
                         </div>
-                        <span class="badge badge-{{$visit->class_color}}">{{$visit->start_datetime->timezone(Session::get('timezone'))->format('D, M d, Y, H:i')}}</span>
+                        <span class="badge badge-{{$visit->class_color}}">{{$visit->start_datetime->format('D, M d, Y, H:i')}}</span>
                     </li>
                     @endforeach
                 </ul>
@@ -93,14 +93,13 @@
                     <div class="form-group">
                         <label for="">@lang('string.start_datetime') {{Session::get('timezone')}}</label>
                         <div class="input-group">
-                            <input type="text" name="start_datetime" class="form-control form-control-sm datetimepicker"
-                                required>
+                            <input type="datetime-local" name="start_datetime" class="form-control form-control-sm" required>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="">@lang('string.end_datetime') {{Session::get('timezone')}}</label>
                         <div class="input-group">
-                            <input type="text" name="end_datetime" class="form-control form-control-sm datetimepicker"
+                            <input type="datetime-local" name="end_datetime" class="form-control form-control-sm"
                                 required>
                         </div>
                     </div>
@@ -140,7 +139,7 @@
     var mapShow
     var events = []
     $(".datetimepicker").bootstrapMaterialDatePicker({
-        format: "YYYY-M-DD HH:mm",
+        format: "M-DD-YYYY hh:mm A",
         minDate: new Date(Date.parse("{{$travel->start_datetime->format('Y/m/d')}}")),
         maxDate: new Date(Date.parse("{{$travel->end_datetime->format('Y/m/d')}}"))
     })

@@ -55,8 +55,8 @@ class VisitController extends Controller
             'address' => $request->address,
             'latitude' => $request->latitude,
             'longitude' => $request->longitude,
-            'start_datetime' => Carbon::parse($request->start_datetime)->timezone('UTC'),
-            'end_datetime' => Carbon::parse($request->end_datetime)->timezone('UTC'),
+            'start_datetime' => Carbon::parse($request->start_datetime)->timezone(Session::get('timezone')),
+            'end_datetime' => Carbon::parse($request->end_datetime)->timezone(Session::get('timezone')),
             'priority' => $request->priority
         ]);
 

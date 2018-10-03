@@ -18,11 +18,11 @@
                 </div>
                 <div class="form-group">
                     <label for="">@lang('string.start_datetime')</label>
-                    <input type="text" name="start_datetime" class="form-control form-control-sm datepicker" required>
+                    <input type="datetime-local" name="start_datetime" class="form-control form-control-sm" required>
                 </div>
                 <div class="form-group">
                     <label for="">@lang('string.end_datetime')</label>
-                    <input type="text" name="end_date" class="form-control form-control-sm datepicker" required>
+                    <input type="datetime-local" name="end_date" class="form-control form-control-sm" required>
                 </div>
                 <div class="form-group">
                     <button type="submit" class="btn btn-sm btn-primary"><i class="fas fa-save"></i> @lang('button.save')</button>

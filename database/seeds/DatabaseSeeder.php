@@ -26,8 +26,8 @@ class DatabaseSeeder extends Seeder
         ])->travels()->create([
             'travel' => 'Thailand',
             'budget' => 30000,
-            'start_datetime' => Carbon::parse('2018-12-18')->startOfDay()->timezone('UTC'),
-            'end_datetime' => Carbon::parse('2019-01-03')->endOfDay()->timezone('UTC'),
+            'start_datetime' => Carbon::parse('2018-12-18 10:00:00')->timezone('America/Mexico_City'),
+            'end_datetime' => Carbon::parse('2019-01-04 05:00:00')->timezone('America/Mexico_City')
         ]);
     }
 }

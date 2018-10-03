@@ -127,7 +127,7 @@
     var bounds = new google.maps.LatLngBounds()
     initMap()
     $(".datetimepicker").bootstrapMaterialDatePicker({
-        format: "YYYY-M-DD HH:mm",
+        format: "YYYY-M-DD hh:mm A",
         minDate: new Date(Date.parse("{{$travel->start_datetime->format('Y/m/d')}}")),
         maxDate: new Date(Date.parse("{{$travel->end_datetime->format('Y/m/d')}}"))
     })
