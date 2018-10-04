@@ -23,21 +23,21 @@
         <div class="col-md-12 pb-5">
         </div>
         <div class="col-md-4">
-            <div class="jumbotron bg-success">
+            <div class="jumbotron bg-light-orange">
                 <h1 class="display-5"><span class="badge badge-dark">{{$travel->visits->count()}}</span> @lang('string.visits')</h1>
                 <hr class="my-4">
                 <a class="btn btn-dark btn-lg" href="{{route('visits.index', $travel)}}" role="button">@lang('button.show_more')</a>
             </div>
         </div>
         <div class="col-md-4">
-            <div class="jumbotron bg-warning">
+            <div class="jumbotron bg-medium-orange">
                 <h1 class="display-5"><span class="badge badge-dark">{{$travel->trips->count()}}</span> @lang('string.trips')</h1>
                 <hr class="my-4">
                 <a class="btn btn-dark btn-lg" href="{{route('trips.index', $travel)}}" role="button">@lang('button.show_more')</a>
             </div>
         </div>
         <div class="col-md-4">
-            <div class="jumbotron bg-danger">
+            <div class="jumbotron bg-dark-orange">
                 <h1 class="display-5"><span class="badge badge-dark">{{($travel->expenses->sum('ammount') * 100)/$travel->budget}} %</span>  @lang('string.expenses')</h1>
                 <hr class="my-4">
                 <a class="btn btn-dark btn-lg" href="{{route('expenses.index', $travel)}}" role="button">@lang('button.show_more')</a>

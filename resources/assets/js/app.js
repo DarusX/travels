@@ -13,9 +13,9 @@ require('jquery-ui/ui/widgets/datepicker');
 require('jquery-ui/ui/widgets/slider');
 require('jquery-ui-timepicker-addon')
 
+/**
 window.Vue = require('vue');
 
-/**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
@@ -101,6 +101,33 @@ $(document).ready(function()
             theme: "default"
         })
     })
+    $("#calcModal").on("shown.bs.modal", function(event){
+        $(this).find("select").select2({
+            theme: "default"
+        })
+    })
+    $("#calcModal form").submit(function(event){
+        event.preventDefault()
+        $.ajax({
+            url: "/converter",
+            method: "POST",
+            data: $(this).serialize(),
+            success: (data) => {
+                $("input[name='to']").val(data)
+            }
+        })
+    })
+    $(".datetimepicker-calc").datetimepicker({
+        dateFormat: "yy-mm-dd"
+    })
     $(".select2").select2()
+    $(window).resize(function(event){
+        appHeight()
+    })
 
+    appHeight()
+    
 })
+function appHeight(){
+    $("#app").height($(window).height())
+}

@@ -5,34 +5,19 @@
         <div class="col-md-12">
             <h1 class="title">@lang('string.travels')</h1>
         </div>
-        <div class="col-md-12">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>@lang('string.travel')</th>
-                        <th>@lang('string.budget')</th>
-                        <th>@lang('string.start_datetime')</th>
-                        <th>@lang('string.end_datetime')</th>
-                        <th>@lang('string.actions')</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($travels as $travel)
-                    <tr>
-                        <td>{{$travel->travel}}</td>
-                        <td>{{number_format($travel->budget, 2)}}</td>
-                        <td>{{$travel->start}}</td>
-                        <td>{{$travel->end}}</td>
-                        <td>
-                            <a href="{{route('travels.show', $travel)}}" class="btn btn-sm btn-dark"><i class="fas fa-eye"></i></a>
-                            <a href="{{route('travels.edit', $travel)}}" class="btn btn-sm btn-dark"><i class="fas fa-pen"></i></a>
-                            <a href="{{route('travels.destroy', $travel)}}" class="btn btn-sm btn-danger delete"><i class="fas fa-trash"></i></a>
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
+        @foreach(Auth::user()->travels as $travel)
+        <div class="col-md-4">
+            <div class="card bg-borboleta">
+                <div class="card-body">
+                    <h5 class="card-title title">{{$travel->travel}}</h5>
+                    <p class="card-text">{{$travel->start->format('D, d M, Y')}} <i class="fas fa-arrow-right"></i> {{$travel->end->format('D, d M, Y')}}</p>
+                    <p class="card-text">{{$travel->start->diffForHumans()}}</p>
+                    <a href="{{route('travels.show', $travel)}}" class="btn btn-dark">@lang('string.show_more')</a>
+                </div>
+            </div>
         </div>
+        @endforeach
+
     </div>
 </div>
 @endsection

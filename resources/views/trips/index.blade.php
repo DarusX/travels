@@ -108,7 +108,7 @@
 </div>
 @endsection
 @section('css')
-<link rel="stylesheet" href="{{asset('lib/dhtmlx/scheduler/dhtmlxscheduler_material.css')}}">
+<link rel="stylesheet" href="{{asset('lib/dhtmlx/scheduler/dhtmlxscheduler_terrace.css')}}">
 <style>
     .datetimepicker {
         z-index: 1600 !important;
@@ -196,11 +196,11 @@
     scheduler.attachEvent("onClick", function () {
         return false
     })
-    scheduler.config.resize_day_events = false;
-    scheduler.config.readonly = true;
+    scheduler.config.resize_day_events = false
+    scheduler.config.readonly = true
+    scheduler.skin = "terrace"
     
     scheduler.attachEvent("onClick", function (id, e) {
-        alert(JSON.stringify(id))
         return true;
     });
     scheduler.init('scheduler_here', new Date("{{$travel->start->format('m/d/Y')}}"), "week");

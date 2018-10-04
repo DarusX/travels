@@ -21,9 +21,33 @@
 @import '~jquery-ui-timepicker-addon/dist/jquery-ui-timepicker-addon';
 
 .navbar-laravel {
-  background-color: #fff;
+  background-color: $darkOrange;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
 }
+body{
+  color: $gray;
+}
+
+.bg-light-orange{
+  background-color: $lightOrange;
+}
+.bg-medium-orange{
+  background-color: $mediumOrange;
+}
+.bg-dark-orange{
+  background-color: $darkOrange;
+}
+.bg-borboleta{
+  background-image: url("/images/card-bg.jpg");
+}
+
+.breadcrumb{
+  background-color: $gray !important;
+}
+.breadcrumb-item>a{
+  color: #fff;
+}
+
 .title{
   font-weight: bolder;
 }

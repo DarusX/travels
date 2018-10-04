@@ -23,7 +23,7 @@ class DatabaseSeeder extends Seeder
 
         foreach (timezone_identifiers_list() as $timezone)
         {
-            Timezone::create(['timezone' => $timezone]);
+            if($timezone != 'UTC') Timezone::create(['timezone' => $timezone]);
         }
 
         User::create([

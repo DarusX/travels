@@ -43,6 +43,6 @@ class Trip extends Model
 
     public function getColorAttribute()
     {
-        return Faker::create()->hexColor;
+        return color();
     }
 }

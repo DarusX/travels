@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Session;
+use Carbon\Carbon;
 
 class HomeController extends Controller
 {
@@ -32,5 +33,10 @@ class HomeController extends Controller
     {
         Session::put('timezone', $request->timezone);
         return redirect()->back();
+    }
+
+    public function converter(Request $request)
+    {
+        return Carbon::createFromFormat('Y-m-d H:i', $request->datetime, Session::get('timezone'))->setTimezone($request->timezone);
     }
 }

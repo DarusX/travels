@@ -123,7 +123,7 @@
 </div>
 @endsection
 @section('css')
-<link rel="stylesheet" href="{{asset('lib/dhtmlx/scheduler/dhtmlxscheduler_material.css')}}">
+<link rel="stylesheet" href="{{asset('lib/dhtmlx/scheduler/dhtmlxscheduler_terrace.css')}}">
 <style>
     .datetimepicker {
         z-index: 1600 !important;
@@ -177,16 +177,18 @@
     })
     scheduler.config.resize_day_events = false;
     scheduler.config.readonly = true;
+    scheduler.skin = "terrace"
     
     scheduler.attachEvent("onClick", function (id, e) {
         alert(JSON.stringify(id))
         return true;
     });
-    scheduler.init('scheduler_here', new Date("{{$travel->start_datetime->format('m/d/Y')}}"), "week");
+    scheduler.init('scheduler_here', new Date("{{$travel->start_datetime->format('m/d/Y')}}"), "month");
 
 </script>
 @foreach($travel->visits as $visit)
 <script>
+    var color = "{{$visit->color}}"
     new google.maps.Marker({
         position: new google.maps.LatLng("{{$visit->latitude}}", "{{$visit->longitude}}"),
         map: mapShow,
@@ -195,10 +197,9 @@
     events.push({
         id: "{{$visit->id}}",
         text: "<i class='fas fa-times'></i>  {{$visit->name}}",
-        start_date: "{{$visit->start_datetime->timezone(Session::get('timezone'))->format('m/d/Y H:i')}}",
-        end_date: "{{$visit->end_datetime->timezone(Session::get('timezone'))->format('m/d/Y H:i')}}",
-        color: "{{$visit->color}}",
-        holder: "{{Auth::user()->name}}"
+        start_date: "{{$visit->start->format('m/d/Y H:i')}}",
+        end_date: "{{$visit->end->format('m/d/Y H:i')}}",
+        color: color
     })
     scheduler.parse(events, "json");
 </script>

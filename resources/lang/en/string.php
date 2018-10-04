@@ -28,5 +28,6 @@ return [
     'address' => 'Address',
     'name' => 'Name',
     'trip' => 'Trip',
-    'logout' => 'Logout'
+    'logout' => 'Logout',
+    'login' => 'Login'
 ];

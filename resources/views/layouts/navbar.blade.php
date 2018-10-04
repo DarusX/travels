@@ -35,6 +35,9 @@
                 </li>
                 @else
                 <li class="nav-item">
+                    <a href="#" class="nav-link" data-toggle="modal" data-target="#calcModal"><i class="fas fa-sync"></i></a>
+                </li>
+                <li class="nav-item">
                     <a href="#" class="nav-link" data-toggle="modal" data-target="#timezoneModal"><i class="fas fa-globe"></i>
                         {{Session::get('timezone')}}
                     </a>
@@ -75,6 +78,42 @@
                             <option value="{{$timezone->timezone}}" {{($timezone->timezone == Session::get('timezone'))?'selected':''}}>{{$timezone->timezone}}</option>
                             @endforeach
                         </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('button.close')</button>
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> @lang('button.save')</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="calcModal" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">@lang('string.timezone')</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="{{route('timezone')}}" method="POST">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="">@lang('string.from') {{Session::get('timezone')}}</label>
+                        <input type="text" name="datetime" class="form-control form-control-sm datetimepicker-calc">
+                    </div>
+                    <div class="form-group">
+                        <label for="">@lang('string.to')</label>
+                        <select name="timezone" class="form-control form-control-sm select2" required>
+                            @foreach($timezones as $timezone)
+                            <option value="{{$timezone->timezone}}">{{$timezone->timezone}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="">@lang('string.to')</label>
+                        <input type="text" name="to" class="form-control form-control-sm">
                     </div>
                 </div>
                 <div class="modal-footer">

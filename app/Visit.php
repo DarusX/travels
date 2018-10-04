@@ -5,6 +5,8 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Session;
 use Carbon\Carbon;
+use Helpers\Colors;
+use Faker;
 
 class Visit extends Model
 {
@@ -24,6 +26,11 @@ class Visit extends Model
     public function getEndAttribute()
     {
         return Carbon::createFromFormat('Y-m-d H:i:s', $this->end_datetime, $this->endTimezone->timezone)->setTimezone(Session::get('timezone'));
+    }
+
+    public function getColorAttribute()
+    {
+        return color();
     }
 
     public function startTimezone()
