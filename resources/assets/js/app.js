@@ -12,6 +12,11 @@ require('jquery-ui/ui/widget');
 require('jquery-ui/ui/widgets/datepicker');
 require('jquery-ui/ui/widgets/slider');
 require('jquery-ui-timepicker-addon')
+require('dhtmlx-scheduler')
+require('dhtmlx-scheduler/codebase/ext/dhtmlxscheduler_tooltip')
+require('dhtmlx-gantt')
+require('dhtmlx-gantt/codebase/ext/dhtmlxgantt_tooltip')
+require('dhtmlx-gantt/codebase/ext/dhtmlxgantt_fullscreen')
 
 /**
 window.Vue = require('vue');
@@ -28,7 +33,6 @@ window.Vue = require('vue');
 */
 var csrf
 $(document).ready(function()
-
 {
     csrf = $('meta[name="csrf-token"]').attr("content")
 

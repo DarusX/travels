@@ -57,6 +57,15 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-md-12">
+                    <button class="btn btn-default gantt-expand"><i class="fas fa-expand-arrows-alt"></i> @lang('string.expand')</button>
+                </div>
+                <div class="col-md-12">
+                    <div class="embed-responsive embed-responsive-16by9">
+                        <div id="gantt_here" class="embed-responsive-item">
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -108,7 +117,6 @@
 </div>
 @endsection
 @section('css')
-<link rel="stylesheet" href="{{asset('lib/dhtmlx/scheduler/dhtmlxscheduler_terrace.css')}}">
 <style>
     .datetimepicker {
         z-index: 1600 !important;
@@ -117,7 +125,6 @@
 @endsection
 @section('js')
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC6--aTCfHnIWexIQGMs9VvTMVAnrvVwRE&language=es"></script>
-<script src="{{asset('lib/dhtmlx/scheduler/dhtmlxscheduler.js')}}"></script>
 <script>
     var map
     var mapShow
@@ -138,12 +145,14 @@
             zoom: 2,
             minZoom: 2,
             gestureHandling: "greedy",
+            disableDefaultUI: true
         });
         mapShow = new google.maps.Map(document.getElementById('map-show'), {
             center: { lat: 0, lng: 0 },
             zoom: 2,
             minZoom: 2,
-            gestureHandling: "greedy"
+            gestureHandling: "greedy",
+            disableDefaultUI: true
         });
         start = new google.maps.Marker({
             position: new google.maps.LatLng(0,0),
@@ -193,17 +202,7 @@
     function getTripRoute(){
         return addresses.start + " - " + addresses.end
     }
-    scheduler.attachEvent("onClick", function () {
-        return false
-    })
-    scheduler.config.resize_day_events = false
-    scheduler.config.readonly = true
-    scheduler.skin = "terrace"
     
-    scheduler.attachEvent("onClick", function (id, e) {
-        return true;
-    });
-    scheduler.init('scheduler_here', new Date("{{$travel->start->format('m/d/Y')}}"), "week");
 
 </script>
 @foreach($travel->trips as $trip)
@@ -216,7 +215,7 @@
         end_date: "{{$trip->end->format('m/d/Y H:i')}}",
         color: color,
     })
-    scheduler.parse(events, "json");
+    
     new google.maps.Polyline({
           path: [
               new google.maps.LatLng("{{$trip->start_latitude}}", "{{$trip->start_longitude}}"),
@@ -229,4 +228,21 @@
         }).setMap(mapShow);
 </script>
 @endforeach
+<script>
+    scheduler.config.readonly = true
+    scheduler.skin = "terrace"
+    scheduler.attachEvent("onClick", function (id, e) {
+        return true;
+    });
+    scheduler.init('scheduler_here', new Date("{{$travel->start->format('m/d/Y')}}"), "week");
+    scheduler.parse(events, "json")
+
+    gantt.init("gantt_here")
+    gantt.config.scale_height = 30
+    gantt.config.scale_unit = "day"
+    gantt.parse({data: events})
+    $(".gantt-expand").click(function(event){
+        gantt.expand()
+    })
+</script>
 @endsection

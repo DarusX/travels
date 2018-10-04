@@ -123,7 +123,6 @@
 </div>
 @endsection
 @section('css')
-<link rel="stylesheet" href="{{asset('lib/dhtmlx/scheduler/dhtmlxscheduler_terrace.css')}}">
 <style>
     .datetimepicker {
         z-index: 1600 !important;
@@ -132,7 +131,6 @@
 @endsection
 @section('js')
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC6--aTCfHnIWexIQGMs9VvTMVAnrvVwRE&language=es"></script>
-<script src="{{asset('lib/dhtmlx/scheduler/dhtmlxscheduler.js')}}"></script>
 <script>
     var map
     var mapShow

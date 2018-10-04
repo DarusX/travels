@@ -20,6 +20,12 @@
 @import '~jquery-ui/themes/base/all.css';
 @import '~jquery-ui-timepicker-addon/dist/jquery-ui-timepicker-addon';
 
+@import '~dhtmlx-scheduler/codebase/dhtmlxscheduler.css';
+@import '~dhtmlx-scheduler/codebase/dhtmlxscheduler_terrace.css';
+
+@import '~dhtmlx-gantt/codebase/dhtmlxgantt.css';
+@import '~dhtmlx-gantt/codebase/skins/dhtmlxgantt_terrace.css';
+
 .navbar-laravel {
   background-color: $darkOrange;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
@@ -39,6 +45,9 @@ body{
 }
 .bg-borboleta{
   background-image: url("/images/card-bg.jpg");
+  background-position: center center;
+  background-size: cover;
+  color: #fff
 }
 
 .breadcrumb{
@@ -46,6 +55,10 @@ body{
 }
 .breadcrumb-item>a{
   color: #fff;
+}
+
+.modal-full{
+  max-width: 90%;
 }
 
 .title{
