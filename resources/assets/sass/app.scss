@@ -27,7 +27,7 @@
 @import '~dhtmlx-gantt/codebase/skins/dhtmlxgantt_terrace.css';
 
 .navbar-laravel {
-  background-color: $darkOrange;
+  background: linear-gradient(to left, $darkOrange 0%, $lightOrange 100%);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
 }
 body{
@@ -44,9 +44,7 @@ body{
   background-color: $darkOrange;
 }
 .bg-borboleta{
-  background-image: url("/images/card-bg.jpg");
-  background-position: center center;
-  background-size: cover;
+  background: linear-gradient(to left, $darkOrange 0%, $lightOrange 100%);
   color: #fff
 }
 

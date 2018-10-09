@@ -17846,7 +17846,8 @@ readers do not read off random characters that represent icons */
 }
 
 .navbar-laravel {
-  background-color: #ff9155;
+  background: -webkit-gradient(linear, right top, left top, from(#ff9155), to(#ffc878));
+  background: linear-gradient(to left, #ff9155 0%, #ffc878 100%);
   -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
           box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
 }
@@ -17868,9 +17869,8 @@ body {
 }
 
 .bg-borboleta {
-  background-image: url("/images/card-bg.jpg");
-  background-position: center center;
-  background-size: cover;
+  background: -webkit-gradient(linear, right top, left top, from(#ff9155), to(#ffc878));
+  background: linear-gradient(to left, #ff9155 0%, #ffc878 100%);
   color: #fff;
 }
 

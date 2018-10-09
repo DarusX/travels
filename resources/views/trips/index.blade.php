@@ -41,30 +41,13 @@
                     </div>
                 </div>
                 <div class="col-md-12">
-                    <div class="embed-responsive embed-responsive-16by9">
-                        <div id="scheduler_here" class="dhx_cal_container embed-responsive-item">
-                            <div class="dhx_cal_navline">
-                                <div class="dhx_cal_prev_button">&nbsp;</div>
-                                <div class="dhx_cal_next_button">&nbsp;</div>
-                                <div class="dhx_cal_today_button"></div>
-                                <div class="dhx_cal_date"></div>
-                                <div class="dhx_cal_tab" name="day_tab" style="right:204px;"></div>
-                                <div class="dhx_cal_tab" name="week_tab" style="right:140px;"></div>
-                                <div class="dhx_cal_tab" name="month_tab" style="right:76px;"></div>
-                            </div>
-                            <div class="dhx_cal_header"></div>
-                            <div class="dhx_cal_data"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-12">
                     <button class="btn btn-default gantt-expand"><i class="fas fa-expand-arrows-alt"></i> @lang('string.expand')</button>
                 </div>
-                <div class="col-md-12">
-                    <div class="embed-responsive embed-responsive-16by9">
-                        <div id="gantt_here" class="embed-responsive-item">
-                        </div>
-                    </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="embed-responsive embed-responsive-16by9">
+                <div id="gantt_here" class="embed-responsive-item">
                 </div>
             </div>
         </div>
@@ -124,7 +107,7 @@
 </style>
 @endsection
 @section('js')
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC6--aTCfHnIWexIQGMs9VvTMVAnrvVwRE&language=es"></script>
+
 <script>
     var map
     var mapShow
@@ -210,9 +193,9 @@
     color = "{{$trip->color}}"
     events.push({
         id: "{{$trip->id}}",
-        text: "<i class='fas fa-times'></i>  {{$trip->trip}}",
-        start_date: "{{$trip->start->format('m/d/Y H:i')}}",
-        end_date: "{{$trip->end->format('m/d/Y H:i')}}",
+        text: "{{$trip->trip}}",
+        start_date: "{{$trip->start->format('d/m/Y H:i')}}",
+        end_date: "{{$trip->end->format('d/m/Y H:i')}}",
         color: color,
     })
     
@@ -229,17 +212,14 @@
 </script>
 @endforeach
 <script>
-    scheduler.config.readonly = true
-    scheduler.skin = "terrace"
-    scheduler.attachEvent("onClick", function (id, e) {
-        return true;
-    });
-    scheduler.init('scheduler_here', new Date("{{$travel->start->format('m/d/Y')}}"), "week");
-    scheduler.parse(events, "json")
-
     gantt.init("gantt_here")
+    gantt.config.autofit = true
     gantt.config.scale_height = 30
-    gantt.config.scale_unit = "day"
+    gantt.config.readonly = true
+    gantt.templates.tooltip_date_format=function (date){
+        var formatFunc = scheduler.date.date_to_str("%D, %M %d, %Y, %h:%i");
+        return formatFunc(date);
+    }
     gantt.parse({data: events})
     $(".gantt-expand").click(function(event){
         gantt.expand()

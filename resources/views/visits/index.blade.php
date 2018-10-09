@@ -65,7 +65,7 @@
     </div>
 </div>
 
-<div class="modal fade" id="visitModal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade" id="visitModal" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -116,6 +116,7 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-dark" data-dismiss="modal">@lang('button.close')</button>
                     <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> @lang('button.save')</button>
+                    <a href="#" class="btn btn-light" data-toggle="modal" data-target="#calcModal"><i class="fas fa-sync"></i></a>
                 </div>
             </form>
         </div>
@@ -130,7 +131,6 @@
 </style>
 @endsection
 @section('js')
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC6--aTCfHnIWexIQGMs9VvTMVAnrvVwRE&language=es"></script>
 <script>
     var map
     var mapShow
